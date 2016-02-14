@@ -1,4 +1,4 @@
-package blog;
+package com.blog;
 
 import static org.junit.Assert.assertNotNull;
 

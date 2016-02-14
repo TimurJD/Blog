@@ -1,0 +1,46 @@
+package com.blog.config;
+
+import java.util.Properties;
+
+import com.blog.util.PropertyLoader;
+
+/**
+ * @author Timur Berezhnoi
+ */
+public enum BlogConstants {
+
+	// TODO: Think about split this constants to 2 different enums???
+	DBHOST("mongodb.host"),
+	DBPORT("mongodb.port"),
+	DBName("mongodb.db"),
+	
+	SERVER_HOST("server.host"),
+	SERVER_PORT("server.port");
+	
+	private static Properties properties;
+	static {
+		properties = PropertyLoader.loadProperties("src/main/resources/app.properties");
+	}
+	
+	private final String key;
+	
+	private BlogConstants(String key) {
+		this.key = key;
+	}
+
+	/**
+	 * @return propertie or null if value doesn't exists
+	 */
+	public String getValue() {
+		String value = properties.getProperty(key);
+		if(properties.getProperty(key) == null) {
+			
+		}
+		return value; 
+	}
+	
+	@Override
+	public String toString() {
+		return getValue();
+	}
+}

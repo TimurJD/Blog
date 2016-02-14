@@ -49,19 +49,11 @@
 			<version>1.50.2</version>
 		</dependency>
 
-
 		<!-- Spark -->
 		<dependency>
 			<groupId>com.sparkjava</groupId>
 			<artifactId>spark-core</artifactId>
 			<version>2.3</version>
-		</dependency>
-
-		<!-- HTML template engine -->
-		<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
-			<version>2.3.23</version>
 		</dependency>
 
 		<!-- Testing -->

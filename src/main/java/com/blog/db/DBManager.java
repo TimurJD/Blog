@@ -1,6 +1,6 @@
 package com.blog.db;
 
-import com.blog.config.DBConstant;
+import com.blog.config.BlogConstants;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoDatabase;
 
@@ -15,8 +15,8 @@ public enum DBManager {
 	private MongoDatabase mongoDatabase;
 	
 	private DBManager() {
-		mongoClient = new MongoClient(DBConstant.HOST.getValue(), Integer.parseInt(DBConstant.PORT.getValue()));
-		mongoDatabase = mongoClient.getDatabase(DBConstant.DBName.getValue());
+		mongoClient = new MongoClient(BlogConstants.DBHOST.getValue(), Integer.parseInt(BlogConstants.DBPORT.getValue()));
+		mongoDatabase = mongoClient.getDatabase(BlogConstants.DBName.getValue());
 	}
 	
 	public MongoDatabase getDataBase() {
