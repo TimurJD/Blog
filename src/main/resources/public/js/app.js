@@ -1,12 +1,12 @@
 define([
-    'Backbone'
-], function (Backbone) {
+    'Backbone',
+    'router'
+], function(Backbone, Router) {
     function init() {
-    	alert("AAA");
-//        var router = new Router();
-//
-//        APP.router = router || {};
-//        Backbone.history.start();
+        var router = new Router();
+
+        APP.router = router || {};
+        Backbone.history.start();
     }
 
     return {

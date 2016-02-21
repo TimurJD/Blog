@@ -8,6 +8,8 @@ import spark.Request;
 
 import com.blog.config.BlogConstants;
 import com.blog.controller.IndexController;
+import com.blog.controller.SignUpController;
+import com.blog.service.SignUpService;
 
 /**
  * @author Timur Berezhnoi
@@ -35,5 +37,6 @@ public class App {
 	
 	public static void main(String[] args) {
 		new IndexController();
+		new SignUpController(new SignUpService());
 	}
 }
