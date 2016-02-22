@@ -1,5 +1,7 @@
 package com.blog.dao.mongoimol;
 
+import static com.mongodb.client.model.Filters.eq;
+
 import org.bson.Document;
 
 import com.blog.dao.UserDAO;
@@ -36,5 +38,14 @@ public class UserDAOMongo implements UserDAO {
             }
 			throw e;
 		}
+	}
+
+	@Override
+	public User getUserByEmail(String email) {
+			Document document = usersCollection.find(eq("email", email)).first();
+			if(document == null) {
+				return null;				
+			}
+			return new User(document.get("email").toString(), document.get("name").toString(), document.get("password").toString());
 	}
 }

@@ -3,12 +3,14 @@ package com.blog.controller;
 import static com.jayway.restassured.RestAssured.baseURI;
 import static com.jayway.restassured.RestAssured.given;
 import static com.jayway.restassured.RestAssured.port;
+import static org.hamcrest.Matchers.equalTo;
 
+import org.bson.Document;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.*;
-
+import com.blog.db.DBManager;
 import com.jayway.restassured.http.ContentType;
 
 /**
@@ -86,7 +88,7 @@ public class SignUpTest {
 	
 	@Test
 	public void shouldBadRequest_whenNameLengthMoreThan20() {
-		body = "{email: \"someemail@gmail.com\", name: \"TimurTimurTimurTimurTimurTimurTimurTimurTimurTimurTimur\", password: \"123456\"}";
+		body = "{email: \"someema@gmail.com\", name: \"TimurTimurTimurTimurTimurTimurTimurTimurTimurTimurTimur\", password: \"123456\"}";
 		given()
 			.contentType(ContentType.JSON)
 			.body(body)
@@ -101,7 +103,7 @@ public class SignUpTest {
 	
 	@Test
 	public void shouldBadRequest_whenPasswordLengthMoreThan15() {
-		body = "{email: \"someemail@gmail.com\", name: \"Timur\", password: \"123456789012345675432123\"}";
+		body = "{email: \"soil@gmail.com\", name: \"Timur\", password: \"123456789012345675432123\"}";
 		given()
 			.contentType(ContentType.JSON)
 			.body(body)
@@ -116,7 +118,7 @@ public class SignUpTest {
 	
 	@Test
 	public void shouldBadRequest_whenPasswordLengthLessThan6() {
-		body = "{email: \"someemail@gmail.com\", name: \"Timur\", password: \"123456789012345675432123\"}";
+		body = "{email: \"somells@gmail.com\", name: \"Timur\", password: \"123456789012345675432123\"}";
 		given()
 			.contentType(ContentType.JSON)
 			.body(body)
@@ -161,7 +163,7 @@ public class SignUpTest {
 	
 	@Test
 	public void shouldBadRequest_whenOnElseKeyIsMissing() {
-		body = "{email: \"someemail@gmail.com\", password: \"123456789012345675432123\"}";
+		body = "{email: \"siliiii@gmail.com\", password: \"123456789012345675432123\"}";
 		given()
 			.contentType(ContentType.JSON)
 			.body(body)
@@ -172,5 +174,29 @@ public class SignUpTest {
 			.post("/signup")
 		.then()
 	    	.body("message", equalTo("Invalid user name."));
+	}
+	
+	@Test
+	public void shouldBadRequest_whenUserAlredyExists() {
+		
+		DBManager.INSTANCE.getDataBase().getCollection("users")
+			.insertOne(new Document().append("email", "asd@gmail.com").append("name", "Timur").append("password", "123453"));
+		
+		body = "{email: \"asd@gmail.com\", name: \"Timur\", password: \"123453\"}";
+		given()
+			.contentType(ContentType.JSON)
+			.body(body)
+		.expect()
+			.contentType(ContentType.JSON)
+			.statusCode(400)
+		.when()
+			.post("/signup")
+		.then()
+	    	.body("message", equalTo("Invalid email or user with the email alredy in use!"));
+	}
+	
+	@After
+	public void tearDown() {
+		DBManager.INSTANCE.getDataBase().getCollection("users").drop();
 	}
 }

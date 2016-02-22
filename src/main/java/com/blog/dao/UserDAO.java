@@ -8,4 +8,5 @@ import com.blog.entity.User;
 public interface UserDAO {
 	
 	boolean addUser(User user);
+	User getUserByEmail(String email);
 }

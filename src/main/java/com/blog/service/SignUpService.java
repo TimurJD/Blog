@@ -18,8 +18,17 @@ public class SignUpService {
 		validateUser(user.getEmail(), user.getName(), user.getPassword());
 		
 		user.setEmail(user.getEmail().toLowerCase());
+		
+		if(isUserExists(user.getEmail())) {
+			throw new InvalidUserData("Invalid email or user with the email alredy in use!");
+		}
+		
 		user.setPassword(PasswordUtil.hashPassword(user.getPassword()));
 		userDAO.addUser(user);
+	}
+
+	public boolean isUserExists(String email) {
+		return userDAO.getUserByEmail(email) != null;
 	}
 
 	private void validateUser(String email, String name, String password) throws InvalidUserData {
