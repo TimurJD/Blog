@@ -1,7 +1,7 @@
 package com.blog.service;
 
 import com.blog.dao.UserDAO;
-import com.blog.dao.mongoimol.UserDAOMongo;
+import com.blog.dao.mongoimpl.UserDAOMongo;
 import com.blog.db.DBManager;
 import com.blog.entity.User;
 import com.blog.exception.InvalidUserData;

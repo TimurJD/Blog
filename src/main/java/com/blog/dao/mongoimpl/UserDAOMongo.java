@@ -1,4 +1,4 @@
-package com.blog.dao.mongoimol;
+package com.blog.dao.mongoimpl;
 
 import static com.mongodb.client.model.Filters.eq;
 
