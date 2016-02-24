@@ -32,6 +32,7 @@ public class SignUpController {
 			response.status(201);
 			return response.body();
 		});
+		
 		before("/signup", (request, response) -> {
 			if(request.body().isEmpty()) {				
 				response.type("application/json");

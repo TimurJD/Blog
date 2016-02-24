@@ -9,8 +9,8 @@ require.config({
         text       : './lib/text/text',
 //        models     : './models',
 //        collections: './collections',
-//        views      : './views',
-//        templates  : '../templates',
+        view      : './view',
+        template  : '../template',
 //        moment     : './libs/moment/moment',
 //        io         : '/socket.io/socket.io'
     },

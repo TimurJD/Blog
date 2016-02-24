@@ -18,11 +18,18 @@ define([
 //            'myApp/admin/posts': 'adminPosts',
 //            'myApp/user/friends': 'friends',
 //            'myApp/user/searchFriends': 'searchFriends',
-            '*any': 'default'
+//            '*any': 'default'
         },
         
         initialize: function() {
-        	console.log('/////////////////////////////////////////');
+        	var self = this;
+        	
+        	require(['view/index'], function (IndexView) {
+                if (self.view) {
+                    self.view.undelegateEvents();
+                }
+                self.view = new IndexView();
+            });
         },
 
         login: function() {
@@ -291,10 +298,10 @@ define([
 //            }
 //        },
 //
-        default: function() {
-//            APP.authorised = localStorage.getItem('loggedIn');
-            Backbone.history.navigate('/login', {trigger: true});
-        }
+//        default: function() {
+////            APP.authorised = localStorage.getItem('loggedIn');
+//            Backbone.history.navigate('/', {trigger: true});
+//        }
     });
 
     return Router;
