@@ -1,15 +1,13 @@
 package com.blog;
 
-import static spark.Spark.before;
-import static spark.Spark.ipAddress;
-import static spark.Spark.port;
-import static spark.Spark.staticFileLocation;
 import spark.Request;
 
 import com.blog.config.BlogConstants;
 import com.blog.controller.IndexController;
 import com.blog.controller.SignUpController;
 import com.blog.service.SignUpService;
+
+import static spark.Spark.*;
 
 /**
  * @author Timur Berezhnoi
@@ -29,10 +27,12 @@ public class App {
 		port(Integer.parseInt(BlogConstants.SERVER_PORT.getValue()));
 		
 		staticFileLocation("/public");
-		
-		before((request, response) -> {
-	        System.out.println(request.requestMethod() + " " + request.pathInfo());
+        
+        before((request, response) -> {
+            System.out.println(request.requestMethod() + " " + request.pathInfo());
 	    });
+
+        after((request, response) -> response.header("cache-control", "no-cache"));
 	}
 	
 	public static void main(String[] args) {
