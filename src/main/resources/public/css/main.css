@@ -1,10 +1,7 @@
-/*
- * Globals
- */
-
 body {
-    min-height: 2000px;
-    padding-top: 70px;
+    ont-family: Georgia, "Times New Roman", Times, serif;
+    color: #555;
+    padding-top: 75px;
 }
 
 h1, .h1,
@@ -18,7 +15,6 @@ h6, .h6 {
     font-weight: normal;
     color: #333;
 }
-
 
 /*
  * Override Bootstrap's default container.

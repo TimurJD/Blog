@@ -31,8 +31,6 @@ public class App {
         before((request, response) -> {
             System.out.println(request.requestMethod() + " " + request.pathInfo());
 	    });
-
-        after((request, response) -> response.header("cache-control", "no-cache"));
 	}
 	
 	public static void main(String[] args) {

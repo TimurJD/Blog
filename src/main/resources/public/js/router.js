@@ -24,7 +24,7 @@ define([
         initialize: function() {
         	var self = this;
         	
-        	require(['view/index'], function (IndexView) {
+        	require(['view/main/mainView'], function (IndexView) {
                 if (self.view) {
                     self.view.undelegateEvents();
                 }

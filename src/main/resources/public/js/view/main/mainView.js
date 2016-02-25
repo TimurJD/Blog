@@ -4,19 +4,20 @@
 define([
     'Backbone',
     'Underscore',
-    'text!template/indexTemplate.html'
-], function (Backbone, _, IndexTemplate) {
+    'text!template/main/mainTemplate.html'
+], function(Backbone, _, IndexTemplate) {
     var View = Backbone.View.extend({
+
         el: "#generalHolder",
         template: _.template(IndexTemplate),
 
         events: {},
 
-        initialize: function (options) {
+        initialize: function() {
             this.render();
         },
 
-        render: function () {
+        render: function() {
             this.$el.html(this.template());
             return this;
         }
