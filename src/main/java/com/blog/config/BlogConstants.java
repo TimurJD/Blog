@@ -24,7 +24,7 @@ public enum BlogConstants {
 	
 	private final String key;
 	
-	private BlogConstants(String key) {
+	BlogConstants(String key) {
 		this.key = key;
 	}
 
@@ -32,11 +32,7 @@ public enum BlogConstants {
 	 * @return propertie or null if value doesn't exists
 	 */
 	public String getValue() {
-		String value = properties.getProperty(key);
-		if(properties.getProperty(key) == null) {
-			
-		}
-		return value; 
+		return properties.getProperty(key);
 	}
 	
 	@Override

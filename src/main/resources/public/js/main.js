@@ -5,7 +5,7 @@ require.config({
         jQuery     : './lib/jquery/dist/jquery',
         Underscore : './lib/underscore/underscore',
         Backbone   : './lib/backbone/backbone',
-        Bootstrap  : './lib/bootstrap/bootstrap.min',
+        Bootstrap  : './lib/bootstrap/dist/js/bootstrap.min',
         text       : './lib/text/text',
 //        models     : './models',
 //        collections: './collections',
