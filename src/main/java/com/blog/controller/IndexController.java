@@ -17,8 +17,9 @@ public class IndexController {
 	}
 	
 	private void setupRoutes() {
-		get("/", (request, resonse) -> {
+		get("/", (request, response) -> {
 			try(InputStream stream = getClass().getResourceAsStream("/public/index.html")) {
+                response.type("text/html");
 	            return IOUtils.toString(stream);
 	        } catch (IOException e) {
 	            throw new RuntimeException(e);

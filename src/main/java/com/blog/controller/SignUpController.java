@@ -1,9 +1,14 @@
 package com.blog.controller;
 
+import static com.blog.constant.ResponseMessage.EMPTY_BODY;
 import static spark.Spark.before;
 import static spark.Spark.exception;
 import static spark.Spark.halt;
 import static spark.Spark.post;
+
+import static com.blog.constant.HttpStatus.CREATED;
+import static com.blog.constant.HttpStatus.BAD_REQUEST;
+import static com.blog.constant.ResponseMessage.SIGNED_UP;
 
 import com.blog.entity.User;
 import com.blog.exception.InvalidUserData;
@@ -26,24 +31,21 @@ public class SignUpController {
 		post("/signup", (request, response) -> {
 			User user = JsonTransformer.fromJson(request.body(), User.class);
 			userService.signUp(user);
-			
-			response.body("{\"message\": \"Succesfully signedUp\"}");
-			response.type("application/json");
-			response.status(201);
+
+			response.body("{\"message\": \"" + SIGNED_UP.getMessage() + "\"}");
+			response.status(CREATED.getCode());
 			return response.body();
 		});
-		
+
 		before("/signup", (request, response) -> {
-			if(request.body().isEmpty()) {				
-				response.type("application/json");
-				halt(400, "{\"message\": \"Body cannot be empty.\"}");
+			if(request.body().isEmpty()) {
+				halt(BAD_REQUEST.getCode(), "{\"message\": \"" + EMPTY_BODY.getMessage() + "\"}");
 			}
 		});
-		
-		// TODO: think about create ExceptionHandler class 
+
+		// TODO: think about create ExceptionHandler class
 		exception(InvalidUserData.class, (e, request, response) -> {
-		    response.status(400);
-		    response.type("application/json");
+		    response.status(BAD_REQUEST.getCode());
 		    response.body("{\"message\": \"" + e.getMessage() + "\"}");
 		});
 	}

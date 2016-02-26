@@ -13,22 +13,15 @@ import static spark.Spark.*;
  * @author Timur Berezhnoi
  */
 public class App {
-	
-	// TODO: Think about trace requests
-	private static String requestInfoToString(Request request) {
-	    StringBuilder sb = new StringBuilder();
-	    sb.append(request.requestMethod());
-	    sb.append(" " + request.pathInfo());
-	    return sb.toString();
-	}
-	
+
 	static {
 		ipAddress(BlogConstants.SERVER_HOST.getValue());
 		port(Integer.parseInt(BlogConstants.SERVER_PORT.getValue()));
 		
 		staticFileLocation("/public");
-        
+
         before((request, response) -> {
+            response.type("application/json");
             System.out.println(request.requestMethod() + " " + request.pathInfo());
 	    });
 	}

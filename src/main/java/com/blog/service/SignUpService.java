@@ -7,6 +7,8 @@ import com.blog.entity.User;
 import com.blog.exception.InvalidUserData;
 import com.blog.util.PasswordUtil;
 
+import static com.blog.constant.ResponseMessage.*;
+
 /**
  * @author Timur Berezhnoi
  */
@@ -20,7 +22,7 @@ public class SignUpService {
 		user.setEmail(user.getEmail().toLowerCase());
 		
 		if(isUserExists(user.getEmail())) {
-			throw new InvalidUserData("Invalid email or user with the email alredy in use!");
+			throw new InvalidUserData(EMIL_IN_USE.getMessage());
 		}
 		
 		user.setPassword(PasswordUtil.hashPassword(user.getPassword()));
@@ -39,15 +41,15 @@ public class SignUpService {
 		String passwordPattern = "^.{6,15}$";
 
 		if(email == null || email.length() > 25 || !email.matches(emailPattern)) {
-			throw new InvalidUserData("Invalid user email.");
+			throw new InvalidUserData(INVALID_USER_EMAIL.getMessage());
 		}
 
 		if(name == null || name.length() > 20 || !name.matches(userNamePattern)) {
-			throw new InvalidUserData("Invalid user name.");
+			throw new InvalidUserData(INVALID_USER_NAME.getMessage());
 		}
 		
 		if (password == null || !password.matches(passwordPattern)) {
-			throw new InvalidUserData("Invalid user password.");
+			throw new InvalidUserData(INVALID_USER_PASSWORD.getMessage());
         }
 	}
 }

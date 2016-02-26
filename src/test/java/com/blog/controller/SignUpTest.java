@@ -6,9 +6,7 @@ import static com.jayway.restassured.RestAssured.port;
 import static org.hamcrest.Matchers.equalTo;
 
 import org.bson.Document;
-import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import com.blog.db.DBManager;
 import com.jayway.restassured.http.ContentType;
@@ -22,6 +20,7 @@ public class SignUpTest {
 	
 	@BeforeClass
 	public static void setUp() {
+        DBManager.INSTANCE.getDataBase();
 		baseURI = "http://localhost:7373";
 		port = 7373;
 	}
@@ -192,7 +191,7 @@ public class SignUpTest {
 		.when()
 			.post("/signup")
 		.then()
-	    	.body("message", equalTo("Invalid email or user with the email alredy in use!"));
+	    	.body("message", equalTo("Invalid email or user with the email is alredy in use!"));
 	}
 	
 	@After

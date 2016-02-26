@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.blog.db.DBManager;
@@ -13,6 +14,7 @@ import com.mongodb.client.MongoDatabase;
 /**
  * @author Timur Berezhnoi
  */
+@Ignore
 public class DBManagerTest {
 
 	private static MongoDatabase testDb;
