@@ -11,10 +11,19 @@ define([
         el: "#generalHolder",
         template: _.template(IndexTemplate),
 
-        events: {},
+        events: {
+            'click #navHolder li': 'addClassActive'
+        },
 
         initialize: function() {
             this.render();
+        },
+
+        addClassActive: function(event) {
+            var target = $(event.target);
+
+            this.$el.find('.active').removeClass('active');
+            target.parent().addClass('active');
         },
 
         render: function() {
