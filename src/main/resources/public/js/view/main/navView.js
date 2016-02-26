@@ -4,7 +4,7 @@
 define([
     'Backbone',
     'Underscore',
-    'text!template/main/mainTemplate.html'
+    'text!template/main/navTemplate.html'
 ], function(Backbone, _, IndexTemplate) {
     var View = Backbone.View.extend({
 

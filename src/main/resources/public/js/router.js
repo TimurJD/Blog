@@ -8,24 +8,18 @@ define([
         },
         
         initialize: function() {
-        	var self = this;
-        	
-        	require(['view/main/mainView'], function (MainView) {
-                if (self.view) {
-                    self.view.undelegateEvents();
-                }
-                self.view = new MainView();
+        	require(['view/main/navView'], function (MainView) {
+                new MainView();
             });
         },
 
         signIn: function() {
-            var self = this;
-
             require(['view/signIn/signInView'], function (SignInView) {
-                if (self.view) {
-                    self.view.undelegateEvents();
+                if (this.view) {
+                    this.view.undelegateEvents();
                 }
-                self.view = new SignInView();
+                this.view = new SignInView();
+                this.view.select();
             });
         },
 

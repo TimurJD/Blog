@@ -11,7 +11,9 @@ define([
         el: "#contentHolder",
         template: _.template(SignInTemplate),
 
-        events: {},
+        events: {
+
+        },
 
         initialize: function() {
             this.render();
@@ -20,6 +22,11 @@ define([
         render: function() {
             this.$el.html(this.template());
             return this;
+        },
+
+        select: function() {
+            $('.active').removeClass('active');
+            $('#signIn').addClass('active');
         }
     });
 
