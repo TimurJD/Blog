@@ -25,7 +25,6 @@ define([
         },
 
         select: function() {
-            $('.active').removeClass('active');
             $('#signIn').addClass('active');
         }
     });

@@ -23,7 +23,7 @@ define([
             var target = $(event.target);
 
             this.$el.find('.active').removeClass('active');
-            target.parent().addClass('active');
+            target.closest('li').addClass('active');
         },
 
         render: function() {
