@@ -11,7 +11,7 @@ import static com.blog.constant.HttpStatus.BAD_REQUEST;
 import static com.blog.constant.ResponseMessage.SIGNED_UP;
 
 import com.blog.entity.User;
-import com.blog.exception.InvalidUserData;
+import com.blog.exception.InvalidUserDataException;
 import com.blog.service.SignUpService;
 import com.blog.util.JsonTransformer;
 
@@ -44,9 +44,9 @@ public class SignUpController {
 		});
 
 		// TODO: think about create ExceptionHandler class
-		exception(InvalidUserData.class, (e, request, response) -> {
-		    response.status(BAD_REQUEST.getCode());
-		    response.body("{\"message\": \"" + e.getMessage() + "\"}");
+		exception(InvalidUserDataException.class, (e, request, response) -> {
+            response.status(BAD_REQUEST.getCode());
+            response.body("{\"message\": \"" + e.getMessage() + "\"}");
 		});
 	}
 }

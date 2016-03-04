@@ -7,12 +7,14 @@ public class User {
 
 	private String id;
 	private String email;
-	private String name;
+	private String firstName;
+	private String lastName;
 	private String password;
 	
-	public User(String email, String name, String password) {
+	public User(String email, String firstName, String lastName, String password) {
 		this.email = email;
-		this.name = name;
+		this.firstName = firstName;
+        this.lastName = lastName;
 		this.password = password;
 	}
 	
@@ -45,35 +47,50 @@ public class User {
 	}
 	
 	/**
-	 * @param name the name to set
+	 * @param firstName the name to set
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 	
 	/**
-	 * @return the name
+	 * @return the first name
 	 */
-	public String getName() {
-		return name;
+	public String getFirstName() {
+		return firstName;
 	}
-	
+
+    /**
+     * @param lastName the name to set
+     */
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    /**
+     * @return the last name
+     */
+    public String getLastName() {
+        return lastName;
+    }
+
 	/**
 	 * @param password the password to set
 	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	/**
 	 * @return the password
 	 */
 	public String getPassword() {
 		return password;
 	}
-	
+
 	@Override
 	public String toString() {
-		return id + " " + email + " " + name + " " + password;
+		return id + " " + email + " " + firstName +
+                " " + lastName + " " + password;
 	}
 }

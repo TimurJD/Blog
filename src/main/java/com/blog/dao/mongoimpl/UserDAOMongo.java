@@ -2,6 +2,7 @@ package com.blog.dao.mongoimpl;
 
 import static com.mongodb.client.model.Filters.eq;
 
+import com.blog.constant.ResponseMessage;
 import org.bson.Document;
 
 import com.blog.dao.UserDAO;
@@ -26,17 +27,18 @@ public class UserDAOMongo implements UserDAO {
 	public boolean addUser(User user) {
 		Document userDocument = new Document()
 							.append("email", user.getEmail())
-							.append("name", user.getName())
+							.append("firstName", user.getFirstName())
+							.append("lastName", user.getLastName())
 							.append("password", user.getPassword());
 		try {
 			usersCollection.insertOne(userDocument);
 			return true;
 		} catch (MongoWriteException e) {
 			if (e.getError().getCategory().equals(ErrorCategory.DUPLICATE_KEY)) {
-                System.out.println("Username already in use: " + user.getName());
+                System.out.println("///////////////////////" + ResponseMessage.EMAIL_IN_USE + user.getFirstName());
                 return false;
             }
-			throw e;
+            throw e;
 		}
 	}
 
@@ -46,6 +48,7 @@ public class UserDAOMongo implements UserDAO {
 			if(document == null) {
 				return null;				
 			}
-			return new User(document.get("email").toString(), document.get("name").toString(), document.get("password").toString());
+			return new User(document.get("email").toString(), document.get("firstName").toString(),
+                            document.get("lastName").toString(), document.get("password").toString());
 	}
 }

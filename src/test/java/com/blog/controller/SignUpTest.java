@@ -27,7 +27,7 @@ public class SignUpTest {
 	
 	@Test
 	public void statusShouldBe201_whenSignUpValid() {
-		body = "{email: \"tim@g.com\", name: \"Timur\", password: \"123456\"}";
+		body = "{email: \"tim@g.com\", firstName: \"Timur\", lastName: \"Somename\", password: \"123456\"}";
 		given()
 			.contentType(ContentType.JSON)
 			.body(body)
@@ -42,7 +42,7 @@ public class SignUpTest {
 	
 	@Test
 	public void shouldBadRequest_whenEmailInvalid() {
-		body = "{email: \"blabla\", name: \"Timur\", password: \"123456\"}";
+		body = "{email: \"blabla\", firstName: \"Timur\", lastName: \"LastName\", password: \"123456\"}";
 		given()
 			.contentType(ContentType.JSON)
 			.body(body)
@@ -54,10 +54,10 @@ public class SignUpTest {
 		.then()
 	    	.body("message", equalTo("Invalid user email."));;
 	}
-	
+
 	@Test
 	public void shouldBadRequest_whenEmailLengthMoreThan25() {
-		body = "{email: \"blablablablablablablablablablablablablablablabla@gmail.com\", name: \"Timur\", password: \"123456\"}";
+		body = "{email: \"blablablablablablablablablablablablablablablabla@gmail.com\", firstName: \"Timur\", lastName: \"LastName\", password: \"123456\"}";
 		given()
 			.contentType(ContentType.JSON)
 			.body(body)
@@ -69,10 +69,10 @@ public class SignUpTest {
 		.then()
 	    	.body("message", equalTo("Invalid user email."));;
 	}
-	
+
 	@Test
-	public void shouldBadRequest_whenNameInvalid() {
-		body = "{email: \"somemail@gmail.com\", name: \"Ti?!mur\", password: \"123456\"}";
+	public void shouldBadRequest_whenFNameInvalid() {
+		body = "{email: \"somemail@gmail.com\", firstName: \"Ti?!mur\", lastName: \"LastName\", password: \"123456\"}";
 		given()
 			.contentType(ContentType.JSON)
 			.body(body)
@@ -84,10 +84,10 @@ public class SignUpTest {
 		.then()
 	    	.body("message", equalTo("Invalid user name."));;
 	}
-	
+
 	@Test
-	public void shouldBadRequest_whenNameLengthMoreThan20() {
-		body = "{email: \"someema@gmail.com\", name: \"TimurTimurTimurTimurTimurTimurTimurTimurTimurTimurTimur\", password: \"123456\"}";
+	public void shouldBadRequest_whenFNameLengthMoreThan20() {
+		body = "{email: \"someema@gmail.com\", firstName: \"TimurTimurTimurTimurTimurTimurTimurTimurTimurTimurTimur\", lastName: \"LastName\", password: \"123456\"}";
 		given()
 			.contentType(ContentType.JSON)
 			.body(body)
@@ -99,10 +99,40 @@ public class SignUpTest {
 		.then()
 	    	.body("message", equalTo("Invalid user name."));;
 	}
-	
+
+    @Test
+    public void shouldBadRequest_whenLNameInvalid() {
+        body = "{email: \"somemail@gmail.com\", firstName: \"Tisamur\", lastName: \"Last?1Name\", password: \"123456\"}";
+        given()
+                .contentType(ContentType.JSON)
+                .body(body)
+                .expect()
+                .contentType(ContentType.JSON)
+                .statusCode(400)
+                .when()
+                .post("/signup")
+                .then()
+                .body("message", equalTo("Invalid user name."));;
+    }
+
+    @Test
+    public void shouldBadRequest_whenLNameLengthMoreThan20() {
+        body = "{email: \"someema@gmail.com\", firstName: \"Timur\", lastName: \"LastNameLastNameLastNameLastNameLastNameLastNameLastNameLastNameLastName\", password: \"123456\"}";
+        given()
+                .contentType(ContentType.JSON)
+                .body(body)
+                .expect()
+                .contentType(ContentType.JSON)
+                .statusCode(400)
+                .when()
+                .post("/signup")
+                .then()
+                .body("message", equalTo("Invalid user name."));;
+    }
+
 	@Test
 	public void shouldBadRequest_whenPasswordLengthMoreThan15() {
-		body = "{email: \"soil@gmail.com\", name: \"Timur\", password: \"123456789012345675432123\"}";
+		body = "{email: \"soil@gmail.com\", firstName: \"Timur\", lastName: \"BlaBla\", password: \"123456789012345675432123\"}";
 		given()
 			.contentType(ContentType.JSON)
 			.body(body)
@@ -114,10 +144,10 @@ public class SignUpTest {
 		.then()
 	    	.body("message", equalTo("Invalid user password."));;
 	}
-	
+
 	@Test
 	public void shouldBadRequest_whenPasswordLengthLessThan6() {
-		body = "{email: \"somells@gmail.com\", name: \"Timur\", password: \"123456789012345675432123\"}";
+		body = "{email: \"somells@gmail.com\", firstName: \"Timur\", lastName: \"LastName\", password: \"123456789012345675432123\"}";
 		given()
 			.contentType(ContentType.JSON)
 			.body(body)
@@ -129,7 +159,7 @@ public class SignUpTest {
 		.then()
 	    	.body("message", equalTo("Invalid user password."));;
 	}
-	
+
 	@Test
 	public void shouldBadRequest_whenBodyIsEmpty() {
 		body = "";
@@ -144,10 +174,10 @@ public class SignUpTest {
 		.then()
 	    	.body("message", equalTo("Body cannot be empty."));
 	}
-	
+
 	@Test
 	public void shouldBadRequest_whenOnKeyIsMissing() {
-		body = "{name: \"Timur\", password: \"123456789012345675432123\"}";
+		body = "{firstName: \"Timur\", password: \"123456789012345675432123\"}";
 		given()
 			.contentType(ContentType.JSON)
 			.body(body)
@@ -159,9 +189,9 @@ public class SignUpTest {
 		.then()
 	    	.body("message", equalTo("Invalid user email."));
 	}
-	
+
 	@Test
-	public void shouldBadRequest_whenOnElseKeyIsMissing() {
+	public void shouldBadRequest_whenOneElseKeyIsMissing() {
 		body = "{email: \"siliiii@gmail.com\", password: \"123456789012345675432123\"}";
 		given()
 			.contentType(ContentType.JSON)
@@ -174,14 +204,15 @@ public class SignUpTest {
 		.then()
 	    	.body("message", equalTo("Invalid user name."));
 	}
-	
+
 	@Test
 	public void shouldBadRequest_whenUserAlredyExists() {
-		
+
 		DBManager.INSTANCE.getDataBase().getCollection("users")
-			.insertOne(new Document().append("email", "asd@gmail.com").append("name", "Timur").append("password", "123453"));
-		
-		body = "{email: \"asd@gmail.com\", name: \"Timur\", password: \"123453\"}";
+			.insertOne(new Document().append("email", "asd@gmail.com").append("firstName", "Timur")
+                        .append("lastName", "LastName").append("password", "123453"));
+
+		body = "{email: \"asd@gmail.com\", firstName: \"Timur\", lastName: \"LastName\", password: \"123453\"}";
 		given()
 			.contentType(ContentType.JSON)
 			.body(body)

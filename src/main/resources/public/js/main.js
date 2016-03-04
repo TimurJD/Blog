@@ -7,7 +7,7 @@ require.config({
         Backbone   : './lib/backbone/backbone',
         Bootstrap  : './lib/bootstrap/dist/js/bootstrap.min',
         text       : './lib/text/text',
-//        models     : './models',
+        models     : './model',
 //        collections: './collections',
         view      : './view',
         template  : '../template',

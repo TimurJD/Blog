@@ -4,6 +4,7 @@ define([
     var Router = Backbone.Router.extend({
         routes: {
             'signIn': 'signIn',
+            'signUp': 'signUp',
             '*any'  : 'default'
         },
         
@@ -19,6 +20,16 @@ define([
                     this.view.undelegateEvents();
                 }
                 this.view = new SignInView();
+                this.view.select();
+            });
+        },
+
+        signUp: function() {
+            require(['view/signUp/signUpView'], function (SignUpView) {
+                if (this.view) {
+                    this.view.undelegateEvents();
+                }
+                this.view = new SignUpView();
                 this.view.select();
             });
         },

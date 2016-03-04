@@ -9,7 +9,7 @@ public enum ResponseMessage {
     INVALID_USER_EMAIL("Invalid user email."),
     INVALID_USER_NAME("Invalid user name."),
     INVALID_USER_PASSWORD("Invalid user password."),
-    EMIL_IN_USE("Invalid email or user with the email is alredy in use!"),
+    EMAIL_IN_USE("Invalid email or user with the email is alredy in use!"),
     EMPTY_BODY("Body cannot be empty."),
 
     // Successful when signUp

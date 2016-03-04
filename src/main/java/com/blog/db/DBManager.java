@@ -14,7 +14,7 @@ public enum DBManager {
 	private MongoClient mongoClient;
 	private MongoDatabase mongoDatabase;
 	
-	private DBManager() {
+    DBManager() {
 		mongoClient = new MongoClient(BlogConstants.DBHOST.getValue(), Integer.parseInt(BlogConstants.DBPORT.getValue()));
 		mongoDatabase = mongoClient.getDatabase(BlogConstants.DBName.getValue());
 	}
