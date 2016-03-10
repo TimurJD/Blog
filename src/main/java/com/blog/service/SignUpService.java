@@ -34,26 +34,26 @@ public class SignUpService {
 	}
 
 	private void validateUser(String email, String firstName, String lastName, String password) throws InvalidUserDataException {
-		String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-				+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-		
-		String userNamePattern = "^[a-zA-Z0-9_-]{3,}$";
-		String passwordPattern = "^.{6,15}$";
+        String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-		if(email == null || email.length() > 25 || !email.matches(emailPattern)) {
-			throw new InvalidUserDataException(INVALID_USER_EMAIL.getMessage());
-		}
+        String userNamePattern = "^[a-zA-Z0-9_-]{3,20}$";
+        String passwordPattern = "^.{6,15}$";
 
-		if(firstName == null || firstName.length() > 20 || !firstName.matches(userNamePattern)) {
-			throw new InvalidUserDataException(INVALID_USER_NAME.getMessage());
-		}
+        if(email == null || email.length() > 25 || !email.matches(emailPattern)) {
+            throw new InvalidUserDataException(INVALID_USER_EMAIL.getMessage());
+        }
 
-        if(lastName == null || lastName.length() > 20 || !lastName.matches(userNamePattern)) {
+        if(firstName == null || !firstName.matches(userNamePattern)) {
             throw new InvalidUserDataException(INVALID_USER_NAME.getMessage());
         }
-		
-		if (password == null || !password.matches(passwordPattern)) {
-			throw new InvalidUserDataException(INVALID_USER_PASSWORD.getMessage());
+
+        if(lastName == null || !lastName.matches(userNamePattern)) {
+            throw new InvalidUserDataException(INVALID_USER_NAME.getMessage());
+        }
+
+        if (password == null || !password.matches(passwordPattern)) {
+            throw new InvalidUserDataException(INVALID_USER_PASSWORD.getMessage());
         }
 	}
 }

@@ -133,6 +133,7 @@ h6, .h6 {
  * Blog posts
  */
 
+
 .blog-post {
     margin-bottom: 60px;
 }
@@ -164,4 +165,10 @@ h6, .h6 {
 .login-div {
     max-width: 500px;
     margin: auto;
+}
+
+.alert-danger {
+    background-color: #f2dede;
+    border: 1px solid #F44336;
+    color: #555;
 }

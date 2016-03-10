@@ -27,5 +27,6 @@ public class App {
 	public static void main(String[] args) {
 		new IndexController();
 		new SignUpController(new SignUpService());
+
 	}
 }
