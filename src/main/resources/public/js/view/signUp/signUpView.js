@@ -5,8 +5,9 @@ define([
     'Backbone',
     'Underscore',
     'model/userModel',
+    '../alert/alertView',
     'text!template/signUp/signUpTemplate.html'
-], function(Backbone, _, UserModel, SignInTemplate) {
+], function(Backbone, _, UserModel, AlertView, SignInTemplate) {
     var View = Backbone.View.extend({
 
         el: "#contentHolder",
@@ -70,10 +71,10 @@ define([
         hideErrors: function(tagName) {
             var div = this.$el.find('#' + tagName + 'Div');
 
-            div.removeClass('has-error').addClass('has-success');
+            div.removeClass('has-error').addClass('has-success has-feedback');
 
             div.find('#' + tagName + 'Span')
-                .removeClass('glyphicon-remove')
+                .removeClass('hide glyphicon-remove')
                 .addClass('glyphicon glyphicon-ok form-control-feedback');
 
             div.find('#' + tagName + 'EM')
@@ -103,6 +104,7 @@ define([
         submitForm: function(event) {
             event.preventDefault();
 
+            var self = this;
             var firstName = this.$el.find('#firstName').val();
             var lastName = this.$el.find('#lastName').val();
             var email = this.$el.find('#email').val();
@@ -123,15 +125,27 @@ define([
                 return;
             }
 
+            // Bootstrap allert if signUp successful
+
             var user = new UserModel();
             user.urlRoot = '/signup';
 
             user.save(data, {
                 success: function(response, xhr) {
                     console.log(xhr.message);
+                    new AlertView({
+                        type    : 'Success!',
+                        cssClass: 'alert-success',
+                        message : xhr.message
+                    });
                 },
                 error: function(error, xhr) {
-                    console.log(xhr.responseText);
+                    console.log(xhr.responseJSON.message);
+                    new AlertView({
+                        type    : 'Error!',
+                        cssClass: 'alert-danger',
+                        message : xhr.responseJSON.message
+                    });
                 }
             });
         },
