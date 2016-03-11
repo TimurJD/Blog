@@ -1,6 +1,7 @@
 define([
-	'Backbone'
-], function(Backbone) {
+	'Backbone',
+    'view/nav/navView'
+], function(Backbone, MainView) {
     var Router = Backbone.Router.extend({
         routes: {
             'signIn' : 'signIn',
@@ -12,9 +13,7 @@ define([
         },
         
         initialize: function() {
-            require(['view/nav/navView'], function (MainView) {
-                new MainView();
-            });
+            new MainView();
         },
 
         signIn: function() {
@@ -70,7 +69,6 @@ define([
                 self[nameView] = new View(params);
 
                 if (self.view) {
-                    self.view.trigger('replaced');
                     self.view.undelegateEvents();
                 }
 
