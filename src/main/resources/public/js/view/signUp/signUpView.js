@@ -104,7 +104,6 @@ define([
         submitForm: function(event) {
             event.preventDefault();
 
-            var self = this;
             var firstName = this.$el.find('#firstName').val();
             var lastName = this.$el.find('#lastName').val();
             var email = this.$el.find('#email').val();
@@ -124,8 +123,6 @@ define([
                 this.validationError(errors);
                 return;
             }
-
-            // Bootstrap allert if signUp successful
 
             var user = new UserModel();
             user.urlRoot = '/signup';

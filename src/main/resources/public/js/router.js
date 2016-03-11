@@ -12,29 +12,17 @@ define([
         },
         
         initialize: function() {
-            require(['view/main/navView'], function (MainView) {
+            require(['view/nav/navView'], function (MainView) {
                 new MainView();
             });
         },
 
         signIn: function() {
-            require(['view/signIn/signInView'], function (SignInView) {
-                if (this.view) {
-                    this.view.undelegateEvents();
-                }
-                this.view = new SignInView();
-                this.view.select();
-            });
+            this.loadView('signIn');
         },
 
         signUp: function() {
-            require(['view/signUp/signUpView'], function (SignUpView) {
-                if (this.view) {
-                    this.view.undelegateEvents();
-                }
-                this.view = new SignUpView();
-                this.view.select();
-            });
+            this.loadView('signUp');
         },
 
         about: function() {
@@ -46,17 +34,49 @@ define([
         },
 
         posts: function() {
-            require(['view/posts/postsView'], function (PostsView) {
-                if (this.view) {
-                    this.view.undelegateEvents();
-                }
-                this.view = new PostsView();
-                this.view.select();
-            });
+            this.loadView('posts');
         },
 
         default: function() {
             Backbone.history.navigate('/posts', {trigger: true});
+        },
+
+        loadView: function (argName, argParams, argRedirect, argType) {
+            var self = this;
+            var name = argName;
+            var nameView = argType ? name + argType + 'View' : name + 'View';
+            var params = argParams;
+            //var redirect = argRedirect;
+            //var newUrl;
+            //var session = App.session;
+            //var homeUrl = session.homeUrl();
+
+            //if (redirect === REDIRECT.whenNOTAuthorized) {
+
+            //if (!session.get('authorized')) {
+            //    newUrl = 'login/success/' + window.location.hash.slice(1);
+            //    return Backbone.history.navigate(newUrl, {trigger: true});
+            //}
+            //}
+
+            //if (redirect === REDIRECT.whenAuthorized) {
+
+            //if (session.get('authorized')) {
+            //    return Backbone.history.navigate(homeUrl, {trigger: true});
+            //}
+            //}
+
+            require(['view/' + name + '/' + nameView], function (View) {
+                self[nameView] = new View(params);
+
+                if (self.view) {
+                    self.view.trigger('replaced');
+                    self.view.undelegateEvents();
+                }
+
+                self.view = self[nameView];
+                self.view.select();
+            });
         }
     });
 
