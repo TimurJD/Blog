@@ -3,13 +3,16 @@ define([
 ], function(Backbone) {
     var Router = Backbone.Router.extend({
         routes: {
-            'signIn': 'signIn',
-            'signUp': 'signUp',
-            '*any'  : 'default'
+            'signIn' : 'signIn',
+            'signUp' : 'signUp',
+            'posts'  : 'posts',
+            'about'  : 'about',
+            'contact': 'contact',
+            '*any'   : 'default'
         },
         
         initialize: function() {
-        	require(['view/main/navView'], function (MainView) {
+            require(['view/main/navView'], function (MainView) {
                 new MainView();
             });
         },
@@ -34,8 +37,26 @@ define([
             });
         },
 
+        about: function() {
+            console.log('about');
+        },
+
+        contact: function() {
+            console.log('contact');
+        },
+
+        posts: function() {
+            require(['view/posts/postsView'], function (PostsView) {
+                if (this.view) {
+                    this.view.undelegateEvents();
+                }
+                this.view = new PostsView();
+                this.view.select();
+            });
+        },
+
         default: function() {
-            Backbone.history.navigate('/', {trigger: true});
+            Backbone.history.navigate('/posts', {trigger: true});
         }
     });
 
