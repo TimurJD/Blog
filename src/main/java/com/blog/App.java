@@ -4,9 +4,11 @@ import com.blog.config.BlogConstants;
 import com.blog.controller.IndexController;
 import com.blog.controller.LoginController;
 import com.blog.controller.SignUpController;
+import com.blog.exception.InvalidUserDataException;
 import com.blog.service.LoginService;
 import com.blog.service.SignUpService;
 
+import static com.blog.constant.HttpStatus.BAD_REQUEST;
 import static spark.Spark.*;
 
 /**
@@ -23,6 +25,12 @@ public class App {
         before((request, response) -> {
             response.type("application/json");
             System.out.println(request.requestMethod() + " " + request.pathInfo());
+        });
+
+        // TODO: Think about ExrrorHandler
+        exception(InvalidUserDataException.class, (e, request, response) -> {
+            response.status(BAD_REQUEST.getCode());
+            response.body("{\"message\": \"" + e.getMessage() + "\"}");
         });
     }
 

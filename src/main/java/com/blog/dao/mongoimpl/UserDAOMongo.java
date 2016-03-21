@@ -16,13 +16,13 @@ import com.mongodb.client.MongoDatabase;
  * @author Timur Berezhnoi
  */
 public class UserDAOMongo implements UserDAO {
-	
+
 	private final MongoCollection<Document> usersCollection;
-	
+
 	public UserDAOMongo(final MongoDatabase database) {
 		usersCollection = database.getCollection("users");
 	}
-	
+
 	@Override
 	public boolean addUser(User user) {
 		Document userDocument = new Document()
@@ -46,9 +46,9 @@ public class UserDAOMongo implements UserDAO {
 	public User getUserByEmail(String email) {
 			Document document = usersCollection.find(eq("email", email)).first();
 			if(document == null) {
-				return null;				
+				return null;
 			}
-			return new User(document.get("email").toString(), document.get("firstName").toString(),
-                            document.get("lastName").toString(), document.get("password").toString());
+			return new User(document.getString("email"), document.getString("firstName"),
+                            document.getString("lastName"), document.getString("password"));
 	}
 }

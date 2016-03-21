@@ -1,5 +1,9 @@
 package com.blog.controller;
 
+import com.blog.db.DBManager;
+import com.blog.util.PasswordUtil;
+import org.bson.Document;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -19,6 +23,10 @@ public class LoginTest {
 
     @BeforeClass
     public static void setUp() {
+        DBManager.INSTANCE.getDataBase().getCollection("users")
+                .insertOne(new Document()
+                            .append("email", "tim@g.com")
+                            .append("password", PasswordUtil.hashPassword("123456")));
         baseURI = "http://localhost:7373";
         port = 7373;
     }
@@ -35,6 +43,73 @@ public class LoginTest {
         .when()
             .post("/login")
         .then()
+            .assertThat()
+            .cookie("session")
             .body("message", equalTo("Successful logged in."));
+    }
+
+    @Test
+    public void shouldBadRequest_whenBodyIsEmpty() {
+        body = "";
+        given()
+            .contentType(ContentType.JSON)
+            .body(body)
+        .expect()
+            .contentType(ContentType.JSON)
+            .statusCode(400)
+        .when()
+            .post("/login")
+        .then()
+            .body("message", equalTo("Body cannot be empty."));
+    }
+
+    @Test
+    public void shouldBadRequest_whenEmailLengthMoreThan25() {
+        body = "{email: \"blablablablablablablablablablablablablablablabla@gmail.com\", password: \"123456\"}";
+        given()
+            .contentType(ContentType.JSON)
+            .body(body)
+        .expect()
+            .contentType(ContentType.JSON)
+            .statusCode(400)
+        .when()
+            .post("/login")
+        .then()
+            .body("message", equalTo("Invalid user email."));
+    }
+
+    @Test
+    public void shouldBadRequest_whenPasswordLengthLessThan6() {
+        body = "{email: \"tim@g.com\", password: \"1234\"}";
+        given()
+            .contentType(ContentType.JSON)
+            .body(body)
+        .expect()
+            .contentType(ContentType.JSON)
+            .statusCode(400)
+        .when()
+            .post("/login")
+        .then()
+            .body("message", equalTo("Invalid user password."));
+    }
+
+    @Test
+    public void shouldBadRequest_whenPasswordLengthMoreThan15() {
+        body = "{email: \"tim@g.com\", password: \"123456bbbsbbbbaskdbaskdjbaskdbaksdjbjbjbjbjbjjjaz\"}";
+        given()
+            .contentType(ContentType.JSON)
+            .body(body)
+        .expect()
+            .contentType(ContentType.JSON)
+            .statusCode(400)
+        .when()
+            .post("/login")
+        .then()
+            .body("message", equalTo("Invalid user password."));
+    }
+
+    @After
+    public void tearDown() {
+        DBManager.INSTANCE.getDataBase().getCollection("sessions").drop();
     }
 }

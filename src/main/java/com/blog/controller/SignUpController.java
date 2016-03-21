@@ -42,11 +42,5 @@ public class SignUpController {
 				halt(BAD_REQUEST.getCode(), "{\"message\": \"" + EMPTY_BODY.getMessage() + "\"}");
 			}
 		});
-
-		// TODO: think about create ExceptionHandler class
-		exception(InvalidUserDataException.class, (e, request, response) -> {
-            response.status(BAD_REQUEST.getCode());
-            response.body("{\"message\": \"" + e.getMessage() + "\"}");
-		});
 	}
 }

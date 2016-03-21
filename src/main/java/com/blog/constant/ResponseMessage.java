@@ -13,13 +13,13 @@ public enum ResponseMessage {
     EMPTY_BODY("Body cannot be empty."),
 
     // Successful when signUp
-    SIGNED_UP("Succesfully signedUp"),
+    SIGNED_UP("Successfully signedUp"),
 
     // Successful when login
     LOGGED_IN("Successful logged in."),
 
     // Errors when login
-    LOGIN_FAILDE("Email or password is wrog.");
+    LOGIN_FAIL("Email or password is wrong.");
 
     ResponseMessage(String message) {
         this.message = message;

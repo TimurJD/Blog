@@ -17,14 +17,14 @@ import com.jayway.restassured.http.ContentType;
 public class SignUpTest {
 
 	private String body;
-	
+
 	@BeforeClass
 	public static void setUp() {
         DBManager.INSTANCE.getDataBase();
 		baseURI = "http://localhost:7373";
 		port = 7373;
 	}
-	
+
 	@Test
 	public void statusShouldBe201_whenSignUpValid() {
 		body = "{email: \"tim@g.com\", firstName: \"Timur\", lastName: \"Somename\", password: \"123456\"}";
@@ -37,9 +37,9 @@ public class SignUpTest {
 		.when()
 	    	.post("/signup")
 	    .then()
-	    	.body("message", equalTo("Succesfully signedUp"));
+	    	.body("message", equalTo("Successfully signedUp"));
 	}
-	
+
 	@Test
 	public void shouldBadRequest_whenEmailInvalid() {
 		body = "{email: \"blabla\", firstName: \"Timur\", lastName: \"LastName\", password: \"123456\"}";
@@ -52,7 +52,7 @@ public class SignUpTest {
 		.when()
 			.post("/signup")
 		.then()
-	    	.body("message", equalTo("Invalid user email."));;
+	    	.body("message", equalTo("Invalid user email."));
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class SignUpTest {
 		.when()
 			.post("/signup")
 		.then()
-	    	.body("message", equalTo("Invalid user email."));;
+	    	.body("message", equalTo("Invalid user email."));
 	}
 
 	@Test
@@ -82,7 +82,7 @@ public class SignUpTest {
 		.when()
 			.post("/signup")
 		.then()
-	    	.body("message", equalTo("Invalid user name."));;
+	    	.body("message", equalTo("Invalid user name."));
 	}
 
 	@Test
@@ -97,37 +97,37 @@ public class SignUpTest {
 		.when()
 			.post("/signup")
 		.then()
-	    	.body("message", equalTo("Invalid user name."));;
+	    	.body("message", equalTo("Invalid user name."));
 	}
 
     @Test
     public void shouldBadRequest_whenLNameInvalid() {
         body = "{email: \"somemail@gmail.com\", firstName: \"Tisamur\", lastName: \"Last?1Name\", password: \"123456\"}";
         given()
-                .contentType(ContentType.JSON)
-                .body(body)
-                .expect()
-                .contentType(ContentType.JSON)
-                .statusCode(400)
-                .when()
-                .post("/signup")
-                .then()
-                .body("message", equalTo("Invalid user name."));;
+            .contentType(ContentType.JSON)
+            .body(body)
+        .expect()
+            .contentType(ContentType.JSON)
+            .statusCode(400)
+        .when()
+            .post("/signup")
+        .then()
+            .body("message", equalTo("Invalid user name."));
     }
 
     @Test
     public void shouldBadRequest_whenLNameLengthMoreThan20() {
         body = "{email: \"someema@gmail.com\", firstName: \"Timur\", lastName: \"LastNameLastNameLastNameLastNameLastNameLastNameLastNameLastNameLastName\", password: \"123456\"}";
         given()
-                .contentType(ContentType.JSON)
-                .body(body)
-                .expect()
-                .contentType(ContentType.JSON)
-                .statusCode(400)
-                .when()
-                .post("/signup")
-                .then()
-                .body("message", equalTo("Invalid user name."));;
+            .contentType(ContentType.JSON)
+            .body(body)
+        .expect()
+            .contentType(ContentType.JSON)
+            .statusCode(400)
+        .when()
+            .post("/signup")
+        .then()
+            .body("message", equalTo("Invalid user name."));
     }
 
 	@Test
@@ -142,7 +142,7 @@ public class SignUpTest {
 		.when()
 			.post("/signup")
 		.then()
-	    	.body("message", equalTo("Invalid user password."));;
+	    	.body("message", equalTo("Invalid user password."));
 	}
 
 	@Test
@@ -157,7 +157,7 @@ public class SignUpTest {
 		.when()
 			.post("/signup")
 		.then()
-	    	.body("message", equalTo("Invalid user password."));;
+	    	.body("message", equalTo("Invalid user password."));
 	}
 
 	@Test
@@ -224,7 +224,7 @@ public class SignUpTest {
 		.then()
 	    	.body("message", equalTo("Invalid email or user with the email is alredy in use!"));
 	}
-	
+
 	@After
 	public void tearDown() {
 		DBManager.INSTANCE.getDataBase().getCollection("users").drop();
