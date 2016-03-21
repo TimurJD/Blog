@@ -5,7 +5,7 @@ package com.blog.constant;
  */
 public enum ResponseMessage {
 
-    // Errors whensignUp
+    // Errors when signUp
     INVALID_USER_EMAIL("Invalid user email."),
     INVALID_USER_NAME("Invalid user name."),
     INVALID_USER_PASSWORD("Invalid user password."),
@@ -13,7 +13,13 @@ public enum ResponseMessage {
     EMPTY_BODY("Body cannot be empty."),
 
     // Successful when signUp
-    SIGNED_UP("Succesfully signedUp");
+    SIGNED_UP("Succesfully signedUp"),
+
+    // Successful when login
+    LOGGED_IN("Successful logged in."),
+
+    // Errors when login
+    LOGIN_FAILDE("Email or password is wrog.");
 
     ResponseMessage(String message) {
         this.message = message;

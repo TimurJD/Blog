@@ -20,7 +20,7 @@ import com.blog.util.JsonTransformer;
  */
 public class SignUpController {
 
-	private SignUpService userService;
+	private final SignUpService userService;
 
 	public SignUpController(SignUpService userService) {
 		this.userService = userService;

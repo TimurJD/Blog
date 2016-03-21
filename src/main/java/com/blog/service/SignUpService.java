@@ -14,7 +14,7 @@ import static com.blog.constant.ResponseMessage.*;
  */
 public class SignUpService {
 
-	private UserDAO userDAO = new UserDAOMongo(DBManager.INSTANCE.getDataBase());
+	private final UserDAO userDAO = new UserDAOMongo(DBManager.INSTANCE.getDataBase());
 
 	public void signUp(User user) throws InvalidUserDataException {
 		validateUser(user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword());
@@ -29,7 +29,7 @@ public class SignUpService {
 		userDAO.addUser(user);
 	}
 
-	public boolean isUserExists(String email) {
+	private boolean isUserExists(String email) {
 		return userDAO.getUserByEmail(email) != null;
 	}
 
