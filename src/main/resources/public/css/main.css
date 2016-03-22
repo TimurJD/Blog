@@ -32,3 +32,15 @@ html {
 .text-muted {
     margin: 20px 0;
 }
+
+.box-form {
+    margin-top: 75px;
+}
+
+.form-holder {
+    padding-top: 30px;
+}
+
+.bottom-margin {
+    margin-bottom: 25px;
+}

@@ -31,7 +31,7 @@ public class LoginController {
             String password = jsonObject.get("password").getAsString();
 
             // TODO: think about remember me and cookie age
-            response.cookie("session", sessionService.login(email, password), 10000 * 60 * 60 * 24, true);
+            response.cookie("session", sessionService.login(email, password), 10000 * 60 * 60 * 24);
             response.body("{\"message\": \"" + LOGGED_IN.getMessage() + "\"}");
             response.status(OK.getCode());
             return response.body();

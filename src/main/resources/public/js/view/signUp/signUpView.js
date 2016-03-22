@@ -36,7 +36,7 @@ define([
             if(!firstName) {
                 validationStatus.push({inputId: 'firstName', message: 'Please  fill first name.'});
             } else if(!userNamePattern.test(firstName)) {
-                validationStatus.push({inputId: 'firstName', message: 'Invalid firs name. Avoid special characters.'});
+                validationStatus.push({inputId: 'firstName', message: 'Invalid firs name. At least 3 characters/Avoid special characters.'});
             } else {
                 this.hideErrors('firstName');
             }
@@ -44,7 +44,7 @@ define([
             if(!lastName) {
                 validationStatus.push({inputId: 'lastName', message: 'Please fill last name.'});
             } else if(!userNamePattern.test(lastName)) {
-                validationStatus.push({inputId: 'lastName', message: 'Invalid last name. Avoid special characters.'});
+                validationStatus.push({inputId: 'lastName', message: 'Invalid last name. At least 3 characters/Avoid special characters.'});
             } else {
                 this.hideErrors('lastName');
             }
@@ -108,7 +108,6 @@ define([
             var lastName = this.$el.find('#lastName').val();
             var email = this.$el.find('#email').val();
             var password = this.$el.find('#password').val();
-            var errors;
 
             var data = {
                 firstName: firstName,
@@ -117,7 +116,7 @@ define([
                 password : password
             };
 
-            errors = this.validate(data);
+            var errors = this.validate(data);
 
             if (errors) {
                 this.validationError(errors);
