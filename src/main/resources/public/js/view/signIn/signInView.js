@@ -114,15 +114,14 @@ define([
                 data: JSON.stringify(data),
                 dataType: "json",
                 "Content-Type": "application/json",
-                success: function(data, textStatus, jqXHR) {
+                success: function(data) {
                     new AlertView({
                         type    : 'Success!',
                         cssClass: 'alert-success',
                         message : data.message
                     });
                 },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR.responseJSON.message);
+                error: function(jqXHR) {
                     new AlertView({
                         type    : 'Error!',
                         cssClass: 'alert-danger',

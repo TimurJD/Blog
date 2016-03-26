@@ -49,6 +49,23 @@ public class LoginTest {
     }
 
     @Test
+    public void logedIn_WhenEmailUpperCase() {
+        body = "{email: \"TIM@G.com\", password: \"123456\"}";
+        given()
+            .contentType(ContentType.JSON)
+            .body(body)
+        .expect()
+            .contentType(ContentType.JSON)
+            .statusCode(200)
+        .when()
+            .post("/login")
+        .then()
+            .assertThat()
+            .cookie("session")
+            .body("message", equalTo("Successful logged in."));
+    }
+
+    @Test
     public void shouldBadRequest_whenBodyIsEmpty() {
         body = "";
         given()
@@ -66,6 +83,21 @@ public class LoginTest {
     @Test
     public void shouldBadRequest_whenEmailLengthMoreThan25() {
         body = "{email: \"blablablablablablablablablablablablablablablabla@gmail.com\", password: \"123456\"}";
+        given()
+            .contentType(ContentType.JSON)
+            .body(body)
+        .expect()
+            .contentType(ContentType.JSON)
+            .statusCode(400)
+        .when()
+            .post("/login")
+        .then()
+            .body("message", equalTo("Invalid user email."));
+    }
+
+    @Test
+    public void shouldBadRequest_whenEmailLengthLessThan6() {
+        body = "{email: \"b@g.c\", password: \"123456\"}";
         given()
             .contentType(ContentType.JSON)
             .body(body)

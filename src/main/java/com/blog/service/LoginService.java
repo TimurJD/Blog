@@ -19,7 +19,7 @@ public class LoginService {
     private final UserDAOMongo userDAO = new UserDAOMongo(DBManager.INSTANCE.getDataBase());
 
     public String login(String email, String password) throws InvalidUserDataException {
-        validateLogin(email, password);
+        validateLogin(email.toLowerCase(), password);
         return sessionDAO.createSession(email);
     }
 
