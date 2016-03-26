@@ -1,6 +1,6 @@
 package com.blog;
 
-import com.blog.config.BlogConstants;
+import com.blog.config.BlogConfig;
 import com.blog.controller.IndexController;
 import com.blog.controller.LoginController;
 import com.blog.controller.SignUpController;
@@ -17,8 +17,8 @@ import static spark.Spark.*;
 public class App {
 
     static {
-        ipAddress(BlogConstants.SERVER_HOST.getValue());
-        port(Integer.parseInt(BlogConstants.SERVER_PORT.getValue()));
+        ipAddress(BlogConfig.SERVER_HOST.getValue());
+        port(Integer.parseInt(BlogConfig.SERVER_PORT.getValue()));
 
         staticFileLocation("/public");
 
@@ -27,7 +27,7 @@ public class App {
             System.out.println(request.requestMethod() + " " + request.pathInfo());
         });
 
-        // TODO: Think about ExrrorHandler
+        // TODO: Think about ErrorHandler
         exception(InvalidUserDataException.class, (e, request, response) -> {
             response.status(BAD_REQUEST.getCode());
             response.body("{\"message\": \"" + e.getMessage() + "\"}");

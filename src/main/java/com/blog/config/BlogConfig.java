@@ -7,7 +7,7 @@ import com.blog.util.PropertyLoader;
 /**
  * @author Timur Berezhnoi
  */
-public enum BlogConstants {
+public enum BlogConfig {
 
 	// TODO: Think about split this constants to 2 different enums???
 	DBHOST("mongodb.host"),
@@ -24,7 +24,7 @@ public enum BlogConstants {
 	
 	private final String key;
 	
-	BlogConstants(String key) {
+	BlogConfig(String key) {
 		this.key = key;
 	}
 

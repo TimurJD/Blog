@@ -14,7 +14,6 @@ import com.mongodb.client.MongoDatabase;
 /**
  * @author Timur Berezhnoi
  */
-@Ignore
 public class DBManagerTest {
 
 	private static MongoDatabase testDb;
@@ -32,10 +31,5 @@ public class DBManagerTest {
 	@Test
 	public void dbShouldReturnCollection() {
 		assertNotNull(testDb.getCollection("users"));
-	}
-	
-	@AfterClass
-	public static void tearDown() {
-		DBManager.INSTANCE.close();
 	}
 }
