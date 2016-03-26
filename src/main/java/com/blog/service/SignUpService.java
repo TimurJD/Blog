@@ -34,8 +34,8 @@ public class SignUpService {
 	}
 
 	private void validateUser(String email, String firstName, String lastName, String password) throws InvalidUserDataException {
-        String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        String emailPattern = "^[a-z0-9-\\+]+(\\.[a-z0-9-]+)*@"
+                + "[a-z0-9-]+(\\.[a-z0-9]+)*(\\.[a-z]{2,})$";
 
         String userNamePattern = "^[a-zA-Z0-9_-]{3,20}$";
         String passwordPattern = "^.{6,15}$";

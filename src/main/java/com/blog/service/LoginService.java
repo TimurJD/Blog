@@ -24,8 +24,8 @@ public class LoginService {
     }
 
     private void validateLogin(String email, String password) throws InvalidUserDataException {
-        String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        String emailPattern = "^[a-z0-9-\\+]+(\\.[a-z0-9-]+)*@"
+                + "[a-z0-9-]+(\\.[a-z0-9]+)*(\\.[a-z]{2,})$";
 
         String passwordPattern = "^.{6,15}$";
 

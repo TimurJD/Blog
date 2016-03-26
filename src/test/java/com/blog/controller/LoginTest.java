@@ -96,21 +96,6 @@ public class LoginTest {
     }
 
     @Test
-    public void shouldBadRequest_whenEmailLengthLessThan6() {
-        body = "{email: \"b@g.c\", password: \"123456\"}";
-        given()
-            .contentType(ContentType.JSON)
-            .body(body)
-        .expect()
-            .contentType(ContentType.JSON)
-            .statusCode(400)
-        .when()
-            .post("/login")
-        .then()
-            .body("message", equalTo("Invalid user email."));
-    }
-
-    @Test
     public void shouldBadRequest_whenPasswordLengthLessThan6() {
         body = "{email: \"tim@g.com\", password: \"1234\"}";
         given()
