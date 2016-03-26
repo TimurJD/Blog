@@ -1,6 +1,8 @@
 package com.blog.service;
 
 import com.blog.dao.SessionDAO;
+import com.blog.dao.UserDAO;
+import com.blog.dao.mongoimpl.MongoDAOFactory;
 import com.blog.dao.mongoimpl.SessionDAOMongo;
 import com.blog.dao.mongoimpl.UserDAOMongo;
 import com.blog.db.DBManager;
@@ -15,8 +17,8 @@ import static com.blog.constant.ResponseMessage.*;
  */
 public class LoginService {
 
-    private final SessionDAO sessionDAO = new SessionDAOMongo(DBManager.INSTANCE.getDataBase());
-    private final UserDAOMongo userDAO = new UserDAOMongo(DBManager.INSTANCE.getDataBase());
+    private final SessionDAO sessionDAO = MongoDAOFactory.getSessionDAOMongo();
+    private final UserDAO userDAO = MongoDAOFactory.getUserDAOMongo();
 
     public String login(String email, String password) throws InvalidUserDataException {
         validateLogin(email.toLowerCase(), password);

@@ -120,6 +120,11 @@ define([
                         cssClass: 'alert-success',
                         message : data.message
                     });
+                    setTimeout(function() {
+                        $('.active').removeClass('active');
+                        Backbone.history.navigate('/signUp', {trigger: true});
+                        Backbone.history.navigate('posts', {trigger: true});
+                    }, 2000)
                 },
                 error: function(jqXHR) {
                     new AlertView({

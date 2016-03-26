@@ -1,6 +1,7 @@
 package com.blog.service;
 
 import com.blog.dao.UserDAO;
+import com.blog.dao.mongoimpl.MongoDAOFactory;
 import com.blog.dao.mongoimpl.UserDAOMongo;
 import com.blog.db.DBManager;
 import com.blog.entity.User;
@@ -14,7 +15,7 @@ import static com.blog.constant.ResponseMessage.*;
  */
 public class SignUpService {
 
-	private final UserDAO userDAO = new UserDAOMongo(DBManager.INSTANCE.getDataBase());
+	private final UserDAO userDAO = MongoDAOFactory.getUserDAOMongo();
 
 	public void signUp(User user) throws InvalidUserDataException {
 		validateUser(user.getEmail(), user.getFirstName(), user.getLastName(), user.getPassword());
