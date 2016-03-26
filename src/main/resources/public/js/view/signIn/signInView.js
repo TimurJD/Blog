@@ -5,8 +5,9 @@ define([
     'Backbone',
     'Underscore',
     'model/userModel',
+    '../alert/alertView',
     'text!template/signIn/signInTemplate.html'
-], function(Backbone, _, UserModel, SignInTemplate) {
+], function(Backbone, _, UserModel, AlertView, SignInTemplate) {
     var View = Backbone.View.extend({
 
         el: "#contentHolder",
@@ -30,7 +31,7 @@ define([
             var email = attrs.email;
             var password = attrs.password;
 
-            if (!email) {
+            if(!email) {
                 validationStatus.push({inputId: 'email', message: 'Please fill Email field.'});
             } else if(!emailPattern.test(email)) {
                 validationStatus.push({inputId: 'email', message: 'Invalid email.'});
@@ -38,7 +39,7 @@ define([
                 this.hideErrors('email');
             }
 
-            if (!password) {
+            if(!password) {
                 validationStatus.push({inputId: 'password', message: 'Please fill Password field.'});
             } else if(!passwordPattern.test(password)) {
                 validationStatus.push({inputId: 'password', message: 'Password must be from 6 to 15 characters.'});
@@ -63,10 +64,10 @@ define([
                 .addClass('hide');
         },
 
-        validationError: function (statuses) {
+        validationError: function(statuses) {
             var self = this;
 
-            _.each(statuses, function (status) {
+            _.each(statuses, function(status) {
                 var tagName = status.inputId;
                 var div = self.$el.find('#' + tagName + 'Div');
 
@@ -96,27 +97,37 @@ define([
             var password = this.$el.find('#password').val();
 
             var data = {
-                email   : email,
+                email: email,
                 password: password
             };
 
             var errors = this.validate(data);
 
-            if (errors) {
+            if(errors) {
                 this.validationError(errors);
                 return;
             }
 
             $.ajax({
-                url     : "/login",
-                type    : "POST",
-                data    : JSON.stringify(data),
+                url: "/login",
+                type: "POST",
+                data: JSON.stringify(data),
                 dataType: "json",
                 "Content-Type": "application/json",
                 success: function(data, textStatus, jqXHR) {
-                    console.log('aaasdasdasdasd');
+                    new AlertView({
+                        type    : 'Success!',
+                        cssClass: 'alert-success',
+                        message : data.message
+                    });
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseJSON.message);
+                    new AlertView({
+                        type    : 'Error!',
+                        cssClass: 'alert-danger',
+                        message : jqXHR.responseJSON.message
+                    });
                     console.log(jqXHR);
                 }
             });
