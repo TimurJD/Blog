@@ -122,7 +122,6 @@ define([
                     });
                     setTimeout(function() {
                         $('.active').removeClass('active');
-                        Backbone.history.navigate('/signUp', {trigger: true});
                         Backbone.history.navigate('posts', {trigger: true});
                     }, 2000)
                 },
