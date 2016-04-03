@@ -1,19 +1,23 @@
 package com.blog.entity;
 
+import java.util.Date;
+
 /**
  * @author Timur Berezhnoi
  */
 public class Post {
 
-    private String id;
+    private String id = "ASDASD";
     private String title;
     private String body;
-    private final User author;
+    private User author;
+    private Date dateOfCreation;
 
-    public Post(String title, String body, User author) {
+    public Post(String title, String body, /*User author,*/ Date dateOfCreation) {
         this.title = title;
         this.body = body;
-        this.author = author;
+//        this.author = author;
+        this.dateOfCreation = dateOfCreation;
     }
 
     /**
@@ -60,6 +64,20 @@ public class Post {
 
     public User getAuthor() {
         return author;
+    }
+
+    /**
+     * @param dateOfCreation the dateOfCreation to set
+     */
+    public void setDateOfCreation(Date dateOfCreation) {
+        this.dateOfCreation = dateOfCreation;
+    }
+
+    /**
+     * @return the dateOfCreation
+     */
+    public Date getDateOfCreation() {
+        return dateOfCreation;
     }
 
     @Override

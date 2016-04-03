@@ -1,5 +1,6 @@
 package com.blog.dao.mongoimpl;
 
+import com.blog.dao.PostDAO;
 import com.blog.db.DBManager;
 
 /**
@@ -9,9 +10,10 @@ public final class MongoDAOFactory {
 
     private static SessionDAOMongo sessionDAOMongo;
     private static UserDAOMongo userDAOMongo;
+    private static PostDAOMongo postDAOMongo;
 
     private MongoDAOFactory() {
-        throw new UnsupportedOperationException("Do not create an instance of the singleton");
+        throw new UnsupportedOperationException("Do not create an instance of the class");
     }
 
     public static SessionDAOMongo getSessionDAOMongo() {
@@ -26,5 +28,12 @@ public final class MongoDAOFactory {
             userDAOMongo = new UserDAOMongo(DBManager.INSTANCE.getDataBase());
         }
         return userDAOMongo;
+    }
+
+    public static PostDAO getPostDAOMongo() {
+        if(postDAOMongo == null) {
+            postDAOMongo = new PostDAOMongo(DBManager.INSTANCE.getDataBase());
+        }
+        return postDAOMongo;
     }
 }

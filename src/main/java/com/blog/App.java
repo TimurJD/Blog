@@ -3,9 +3,12 @@ package com.blog;
 import com.blog.config.BlogConfig;
 import com.blog.controller.IndexController;
 import com.blog.controller.LoginController;
+import com.blog.controller.PostController;
 import com.blog.controller.SignUpController;
+import com.blog.dao.mongoimpl.MongoDAOFactory;
 import com.blog.exception.InvalidUserDataException;
 import com.blog.service.LoginService;
+import com.blog.service.PostService;
 import com.blog.service.SignUpService;
 
 import static com.blog.constant.HttpStatus.BAD_REQUEST;
@@ -27,6 +30,7 @@ public class App {
             System.out.println(request.requestMethod() + " " + request.pathInfo());
         });
 
+
         // TODO: Think about ErrorHandler
         exception(InvalidUserDataException.class, (e, request, response) -> {
             response.status(BAD_REQUEST.getCode());
@@ -38,5 +42,6 @@ public class App {
         new IndexController();
         new SignUpController(new SignUpService());
         new LoginController(new LoginService());
+        new PostController(new PostService(MongoDAOFactory.getPostDAOMongo()));
     }
 }
