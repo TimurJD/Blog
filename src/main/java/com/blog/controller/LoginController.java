@@ -1,24 +1,26 @@
 package com.blog.controller;
 
 import com.blog.service.LoginService;
+import com.blog.service.SessionService;
 import com.blog.util.JsonTransformer;
-import com.google.gson.*;
+import com.google.gson.JsonObject;
 
 import static com.blog.constant.HttpStatus.BAD_REQUEST;
 import static com.blog.constant.HttpStatus.OK;
 import static com.blog.constant.ResponseMessage.EMPTY_BODY;
-import static spark.Spark.*;
-
 import static com.blog.constant.ResponseMessage.LOGGED_IN;
+import static spark.Spark.*;
 
 /**
  * @author Timur Berezhnoi
  */
 public class LoginController {
 
-    private final LoginService sessionService;
+    private final LoginService loginService;
+    private final SessionService sessionService;
 
-    public LoginController(LoginService sessionService) {
+    public LoginController(LoginService loginService, SessionService sessionService) {
+        this.loginService = loginService;
         this.sessionService = sessionService;
         setupRoutes();
     }
@@ -31,8 +33,8 @@ public class LoginController {
             String password = jsonObject.get("password").getAsString();
 
             // TODO: think about remember me and cookie age
-            response.cookie("session", sessionService.login(email, password), 10000 * 60 * 60 * 24);
             response.body("{\"message\": \"" + LOGGED_IN.getMessage() + "\"}");
+            response.cookie("session", sessionService.sessionBurn(email), 10000 * 60 * 60 * 24);
             response.status(OK.getCode());
             return response.body();
         });

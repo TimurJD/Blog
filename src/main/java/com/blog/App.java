@@ -9,6 +9,7 @@ import com.blog.dao.mongoimpl.MongoDAOFactory;
 import com.blog.exception.InvalidUserDataException;
 import com.blog.service.LoginService;
 import com.blog.service.PostService;
+import com.blog.service.SessionService;
 import com.blog.service.SignUpService;
 
 import static com.blog.constant.HttpStatus.BAD_REQUEST;
@@ -41,7 +42,7 @@ public class App {
     public static void main(String[] args) {
         new IndexController();
         new SignUpController(new SignUpService());
-        new LoginController(new LoginService());
+        new LoginController(new LoginService(MongoDAOFactory.getUserDAOMongo()), new SessionService(MongoDAOFactory.getSessionDAOMongo()));
         new PostController(new PostService(MongoDAOFactory.getPostDAOMongo()));
     }
 }

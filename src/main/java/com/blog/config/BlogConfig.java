@@ -1,8 +1,8 @@
 package com.blog.config;
 
-import java.util.Properties;
-
 import com.blog.util.PropertyLoader;
+
+import java.util.Properties;
 
 /**
  * @author Timur Berezhnoi
@@ -10,9 +10,9 @@ import com.blog.util.PropertyLoader;
 public enum BlogConfig {
 
 	// TODO: Think about split this constants to 2 different enums???
-	DBHOST("mongodb.host"),
-	DBPORT("mongodb.port"),
-	DBName("mongodb.db"),
+	DB_HOST("mongodb.host"),
+	DB_PORT("mongodb.port"),
+	DB_NAME("mongodb.db"),
 	
 	SERVER_HOST("server.host"),
 	SERVER_PORT("server.port");

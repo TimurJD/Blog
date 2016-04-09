@@ -1,13 +1,10 @@
 package com.blog.controller;
 
-import static com.jayway.restassured.RestAssured.baseURI;
-import static com.jayway.restassured.RestAssured.port;
-import static com.jayway.restassured.RestAssured.when;
-
+import com.jayway.restassured.http.ContentType;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.jayway.restassured.http.ContentType;
+import static com.jayway.restassured.RestAssured.*;
 
 /**
  * @author Timur Berezhnoi
