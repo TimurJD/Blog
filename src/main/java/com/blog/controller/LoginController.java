@@ -3,7 +3,11 @@ package com.blog.controller;
 import com.blog.service.LoginService;
 import com.blog.service.SessionService;
 import com.blog.util.JsonTransformer;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.blog.constant.HttpStatus.BAD_REQUEST;
 import static com.blog.constant.HttpStatus.OK;
@@ -32,12 +36,17 @@ public class LoginController {
             String email = jsonObject.get("email").getAsString();
             String password = jsonObject.get("password").getAsString();
 
+            Map<String, Object> responseData = new HashMap<>();
+
+            responseData.put("message", LOGGED_IN.getMessage());
+            responseData.put("user", loginService.login(email, password));
+
             // TODO: think about remember me and cookie age
-            response.body("{\"message\": \"" + LOGGED_IN.getMessage() + "\"}");
             response.cookie("session", sessionService.sessionBurn(email), 10000 * 60 * 60 * 24);
             response.status(OK.getCode());
-            return response.body();
-        });
+
+            return responseData;
+        }, new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()::toJson);
 
         before("/login", (request, response) -> {
             if(request.body().isEmpty()) {

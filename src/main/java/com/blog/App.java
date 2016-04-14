@@ -31,8 +31,6 @@ public class App {
             System.out.println(request.requestMethod() + " " + request.pathInfo());
         });
 
-
-        // TODO: Think about ErrorHandler
         exception(InvalidUserDataException.class, (e, request, response) -> {
             response.status(BAD_REQUEST.getCode());
             response.body("{\"message\": \"" + e.getMessage() + "\"}");
@@ -42,7 +40,8 @@ public class App {
     public static void main(String[] args) {
         new IndexController();
         new SignUpController(new SignUpService());
-        new LoginController(new LoginService(MongoDAOFactory.getUserDAOMongo()), new SessionService(MongoDAOFactory.getSessionDAOMongo()));
+        new LoginController(new LoginService(MongoDAOFactory.getUserDAOMongo()),
+                            new SessionService(MongoDAOFactory.getSessionDAOMongo()));
         new PostController(new PostService(MongoDAOFactory.getPostDAOMongo()));
     }
 }

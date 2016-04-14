@@ -1,17 +1,14 @@
 package com.blog.controller;
 
-import static com.blog.constant.ResponseMessage.EMPTY_BODY;
-import static spark.Spark.before;
-import static spark.Spark.halt;
-import static spark.Spark.post;
-
-import static com.blog.constant.HttpStatus.CREATED;
-import static com.blog.constant.HttpStatus.BAD_REQUEST;
-import static com.blog.constant.ResponseMessage.SIGNED_UP;
-
 import com.blog.entity.User;
 import com.blog.service.SignUpService;
 import com.blog.util.JsonTransformer;
+
+import static com.blog.constant.HttpStatus.BAD_REQUEST;
+import static com.blog.constant.HttpStatus.CREATED;
+import static com.blog.constant.ResponseMessage.EMPTY_BODY;
+import static com.blog.constant.ResponseMessage.SIGNED_UP;
+import static spark.Spark.*;
 
 /**
  * @author Timur Berezhnoi
