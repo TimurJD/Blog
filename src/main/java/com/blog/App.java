@@ -37,9 +37,9 @@ public class App {
         });
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         new IndexController();
-        new SignUpController(new SignUpService());
+        new SignUpController(new SignUpService(MongoDAOFactory.getUserDAOMongo()));
         new LoginController(new LoginService(MongoDAOFactory.getUserDAOMongo()),
                             new SessionService(MongoDAOFactory.getSessionDAOMongo()));
         new PostController(new PostService(MongoDAOFactory.getPostDAOMongo()));
