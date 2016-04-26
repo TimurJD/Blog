@@ -35,9 +35,9 @@ public class PostServiceTest {
     @Test
     public void shouldReturnAllPosts() {
         // Given
-        List<Post> postList = Arrays.<Post> asList(new Post("Title", "Body", new Date()));
+        List<Post> postsList = Arrays.asList(new Post("Title", "Body", new Date()), new Post("Title2", "Body2", new Date()));
 
-        when(postDAO.getAllPosts()).thenReturn(postList);
+        when(postDAO.getAllPosts()).thenReturn(postsList);
 
         // When
         List<Post> result = postService.getAllPosts();
@@ -46,6 +46,7 @@ public class PostServiceTest {
         verify(postDAO, times(1)).getAllPosts();
 
         assertNotNull(result);
-        assertEquals(postList, result);
+        assertEquals(postsList, result);
+        System.out.println(postsList);
     }
 }

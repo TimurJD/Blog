@@ -7,7 +7,7 @@ import java.util.Date;
  */
 public class Post {
 
-    private String id = "ASDASD";
+    private String id;
     private String title;
     private String body;
     private User author;
@@ -82,6 +82,6 @@ public class Post {
 
     @Override
     public String toString() {
-        return id + " " + title + " " + body;
+        return id + " " + title + " " + body + " " + dateOfCreation;
     }
 }
