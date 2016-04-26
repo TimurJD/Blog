@@ -16,7 +16,7 @@ public class PostService {
         this.postDAO = postDAO;
     }
 
-    public List<Post> getAllPosts() {
-        return postDAO.getAllPosts();
+    public List<Post> getPostsByDateDescending(int limit, int pageNumber) {
+        return postDAO.getPostsByDateDescending(limit, pageNumber);
     }
 }

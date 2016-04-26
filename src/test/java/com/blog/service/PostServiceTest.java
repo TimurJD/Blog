@@ -9,11 +9,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 /**
@@ -33,20 +32,71 @@ public class PostServiceTest {
     }
 
     @Test
-    public void shouldReturnAllPosts() {
+    public void shouldReturnPostsByDateDescending() {
         // Given
-        List<Post> postsList = Arrays.asList(new Post("Title", "Body", new Date()), new Post("Title2", "Body2", new Date()));
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2017);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        Date date = cal.getTime();
 
-        when(postDAO.getAllPosts()).thenReturn(postsList);
+        int limit = 10;
+        int pageNumber = 1;
+
+        List<Post> sortedPostsList = Arrays.asList(new Post("Title2", "Body2", date), new Post("Title", "Body", new Date()));
+
+        when(postDAO.getPostsByDateDescending(limit, pageNumber)).thenReturn(sortedPostsList);
 
         // When
-        List<Post> result = postService.getAllPosts();
+        postService.getPostsByDateDescending(10, pageNumber);
 
         // Then
-        verify(postDAO, times(1)).getAllPosts();
+        verify(postDAO, times(1)).getPostsByDateDescending(limit, pageNumber);
+    }
 
-        assertNotNull(result);
-        assertEquals(postsList, result);
-        System.out.println(postsList);
+    @Test
+    public void shouldReturnPostsByDateDescendingWithLimit() {
+        // Given
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2017);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        Date date = cal.getTime();
+
+        int limit = 10;
+        int pageNumber = 1;
+
+        List<Post> sortedPostsList = Arrays.asList(new Post("Title2", "Body2", date), new Post("Title", "Body", new Date()));
+
+        when(postDAO.getPostsByDateDescending(limit, pageNumber)).thenReturn(sortedPostsList);
+
+        // When
+        postService.getPostsByDateDescending(limit, pageNumber);
+
+        // Then
+        verify(postDAO, times(1)).getPostsByDateDescending(limit, pageNumber);
+    }
+
+    @Test
+    public void shouldReturnPostsByDateDescendingWithLimitAndPageNumber() {
+        // Given
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2017);
+        cal.set(Calendar.MONTH, Calendar.JANUARY);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        Date date = cal.getTime();
+
+        int limit = 10;
+        int pageNumber = 1;
+
+        List<Post> sortedPostsList = Arrays.asList(new Post("Title2", "Body2", date), new Post("Title", "Body", new Date()));
+
+        when(postDAO.getPostsByDateDescending(limit, pageNumber)).thenReturn(sortedPostsList);
+
+        // When
+        postService.getPostsByDateDescending(limit, pageNumber);
+
+        // Then
+        verify(postDAO, times(1)).getPostsByDateDescending(limit, pageNumber);
     }
 }

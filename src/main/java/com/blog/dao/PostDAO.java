@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface PostDAO {
     void addPost(Post post);
-    List<Post> getAllPosts();
+    List<Post> getPostsByDateDescending(int limit, int pageNumber);
 }

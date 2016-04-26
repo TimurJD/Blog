@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.mongodb.client.model.Sorts.descending;
+
 /**
  * @author Timur Berezhnoi
  */
@@ -31,15 +33,21 @@ public class PostDAOMongo implements PostDAO {
     }
 
     @Override
-    public List<Post> getAllPosts() {
-        FindIterable<Document> iterable = postCollection.find();
-        List<Post> result = new ArrayList<>();
+    public List<Post> getPostsByDateDescending(int limit, int pageNumber) {
+        FindIterable<Document> iterable = postCollection.find().skip(limit * (pageNumber - 1)).limit(limit).sort(descending("date"));
 
-        for(Document document: iterable) {
-            result.add(new Post(document.getString("title"), document.getString("body"),
-                    /*(User) document.get("author"),*/ document.getDate("date")));
+        List<Post> result;
+
+        if(iterable == null) {
+            return null;
+        } else {
+            result = new ArrayList<>();
+
+            for(Document document: iterable) {
+                result.add(new Post(document.getString("title"), document.getString("body"), document.getDate("date")));
+            }
+
+            return result;
         }
-
-        return result;
     }
 }
