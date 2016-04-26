@@ -18,7 +18,10 @@ public class PostController {
     }
 
     private void setupRoutes() {
-        get("/posts", (request, response) ->
-                postService.getPostsByDateDescending(Integer.parseInt(request.queryParams("limit")), Integer.parseInt(request.queryParams("pageNumber"))), new Gson()::toJson);
+        get("/posts", (request, response) -> {
+            int limit = Integer.parseInt(request.queryParams("limit"));
+            int pageNumber = Integer.parseInt(request.queryParams("pageNumber"));
+            return postService.getPostsByDateDescending(limit, pageNumber);
+        }, new Gson()::toJson);
     }
 }
