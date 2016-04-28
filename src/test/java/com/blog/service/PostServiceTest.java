@@ -86,7 +86,7 @@ public class PostServiceTest {
         cal.set(Calendar.DAY_OF_MONTH, 1);
         Date date = cal.getTime();
 
-        int limit = 10;
+        int limit = 1;
         int pageNumber = 1;
 
         List<Post> sortedPostsList = Arrays.asList(new Post("Title2", "Body2", date), new Post("Title", "Body", new Date()));

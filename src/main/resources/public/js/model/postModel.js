@@ -5,9 +5,9 @@ define([
     'Backbone',
     'Underscore'
 ], function(Backbone, _) {
-    var UserModel = Backbone.Model.extend({
+    var PostModel = Backbone.Model.extend({
         idAttribute: '_id'
     });
 
-    return UserModel;
+    return PostModel;
 });
