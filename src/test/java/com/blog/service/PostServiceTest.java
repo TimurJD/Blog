@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.blog.constant.ResponseMessage.INVALID_POST_BODY;
 import static com.blog.constant.ResponseMessage.INVALID_POST_TITLE;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.*;
@@ -109,7 +110,7 @@ public class PostServiceTest {
     }
 
     @Test
-    public void shouldThrowExceprionWhenTitleIsMissing() throws InvalidPostDataException {
+    public void shouldThrowExceprionWhenTitleIsNull() throws InvalidPostDataException {
         // Given
         Post post = new Post(null, "Some body", new Date());
 
@@ -142,6 +143,19 @@ public class PostServiceTest {
         // Then
         expectedException.expect(InvalidPostDataException.class);
         expectedException.expectMessage(equalTo(INVALID_POST_TITLE.getMessage()));
+
+        // When
+        postService.addNewPost(post);
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenBodyIsNull() throws InvalidPostDataException {
+        // Given
+        Post post = new Post("title", null, new Date());
+
+        // Then
+        expectedException.expect(InvalidPostDataException.class);
+        expectedException.expectMessage(equalTo(INVALID_POST_BODY.getMessage()));
 
         // When
         postService.addNewPost(post);

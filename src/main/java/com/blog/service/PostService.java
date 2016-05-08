@@ -6,6 +6,7 @@ import com.blog.exception.InvalidPostDataException;
 
 import java.util.List;
 
+import static com.blog.constant.ResponseMessage.INVALID_POST_BODY;
 import static com.blog.constant.ResponseMessage.INVALID_POST_TITLE;
 
 /**
@@ -33,6 +34,10 @@ public class PostService {
     private void validatePost(Post post) throws InvalidPostDataException {
         if(post.getTitle() == null || post.getTitle().length() > 30 || post.getTitle().length() < 5) {
             throw new InvalidPostDataException(INVALID_POST_TITLE.getMessage());
+        }
+
+        if(post.getBody() == null) {
+            throw new InvalidPostDataException(INVALID_POST_BODY.getMessage());
         }
     }
 

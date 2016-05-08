@@ -20,7 +20,8 @@ public enum ResponseMessage {
     LOGGED_IN("Successful logged in."),
 
     // Errors when create new post
-    INVALID_POST_TITLE("Invalid post title.");
+    INVALID_POST_TITLE("Invalid post title."),
+    INVALID_POST_BODY("Invalid post body.");
 
     ResponseMessage(String message) {
         this.message = message;
