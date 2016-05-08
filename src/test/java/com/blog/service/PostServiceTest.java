@@ -16,8 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import static com.blog.constant.ResponseMessage.INVALID_POST_BODY;
-import static com.blog.constant.ResponseMessage.INVALID_POST_TITLE;
+import static com.blog.constant.ResponseMessage.*;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.*;
 

@@ -28,6 +28,7 @@ public class PostDAOMongo implements PostDAO {
     public void addPost(Post post) {
         postCollection.insertOne(new Document("title", post.getTitle())
                                 .append("body", post.getBody())
+                                .append("permalink", post.getPermalink())
                                 .append("date", new Date()));
     }
 
@@ -43,7 +44,9 @@ public class PostDAOMongo implements PostDAO {
             result = new ArrayList<>();
 
             for(Document document: iterable) {
-                result.add(new Post(document.getString("title"), document.getString("body"), document.getDate("date")));
+                Post post = new Post(document.getString("title"), document.getString("body"), document.getDate("date"));
+                post.setPermalink(document.getString("permalink"));
+                result.add(post);
             }
 
             return result;

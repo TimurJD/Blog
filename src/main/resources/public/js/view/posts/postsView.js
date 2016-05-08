@@ -15,6 +15,7 @@ define([
         events: {},
 
         initialize: function() {
+            var self = this;
             var postCollection = new PostCollection();
             postCollection.url = "/posts";
             postCollection.fetch({
@@ -22,20 +23,17 @@ define([
                     limit: 10,
                     pageNumber: 1
                 },
-                success: function(collection, response, options) {
-                    console.log("Collection: ", collection);
-                    console.log("Response: ", response);
-                    console.log("Options: ", options);
+                success: function(collection) {
+                    self.render(collection.toJSON());
                 },
                 error: function() {
                     console.log("Error");
                 }
             });
-            this.render();
         },
 
-        render: function() {
-            this.$el.html(this.template());
+        render: function(posts) {
+            this.$el.html(this.template({posts: posts}));
             return this;
         },
 

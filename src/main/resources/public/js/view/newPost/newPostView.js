@@ -27,7 +27,7 @@ define([
             var content = this.$el.find("#newPostBody").val();
 
             var data = {
-                titel: title,
+                title: title,
                 body : content
             };
 
@@ -36,10 +36,10 @@ define([
 
             newPost.save(data, {
                 success: function(response, xhr) {
-                    console.log(xhre);
+                    console.log(xhr);
                 },
                 error: function(error, xhr) {
-                    console.log(xhr);
+                    console.log(xhr.responseJSON.message);
                 }
             });
 

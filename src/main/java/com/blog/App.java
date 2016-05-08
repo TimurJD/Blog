@@ -6,6 +6,7 @@ import com.blog.controller.LoginController;
 import com.blog.controller.PostController;
 import com.blog.controller.SignUpController;
 import com.blog.dao.mongoimpl.MongoDAOFactory;
+import com.blog.exception.InvalidPostDataException;
 import com.blog.exception.InvalidUserDataException;
 import com.blog.service.LoginService;
 import com.blog.service.PostService;
@@ -32,6 +33,11 @@ public class App {
         });
 
         exception(InvalidUserDataException.class, (e, request, response) -> {
+            response.status(BAD_REQUEST.getCode());
+            response.body("{\"message\": \"" + e.getMessage() + "\"}");
+        });
+
+        exception(InvalidPostDataException.class, (e, request, response) -> {
             response.status(BAD_REQUEST.getCode());
             response.body("{\"message\": \"" + e.getMessage() + "\"}");
         });
