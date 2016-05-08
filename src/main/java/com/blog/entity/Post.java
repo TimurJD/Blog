@@ -10,13 +10,12 @@ public class Post {
     private String id;
     private String title;
     private String body;
-    private User author;
     private Date dateOfCreation;
+    private String permalink;
 
-    public Post(String title, String body, /*User author,*/ Date dateOfCreation) {
+    public Post(String title, String body, Date dateOfCreation) {
         this.title = title;
         this.body = body;
-//        this.author = author;
         this.dateOfCreation = dateOfCreation;
     }
 
@@ -62,10 +61,6 @@ public class Post {
         return body;
     }
 
-    public User getAuthor() {
-        return author;
-    }
-
     /**
      * @param dateOfCreation the dateOfCreation to set
      */
@@ -80,8 +75,23 @@ public class Post {
         return dateOfCreation;
     }
 
+    /**
+     * @param permalink the permalink to set
+     */
+    public void setPermalink(String permalink) {
+        this.permalink = permalink;
+    }
+
+    /**
+     * @return the permalink
+     */
+    public String getPermalink() {
+        return permalink;
+    }
+
     @Override
     public String toString() {
         return id + " " + title + " " + body + " " + dateOfCreation;
     }
+
 }

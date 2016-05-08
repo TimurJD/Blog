@@ -2,19 +2,35 @@
  * @author TimurJD
  */
 define([
-    'Backbone',
-    'Underscore',
-    'text!template/posts/postsTemplate.html'
-], function(Backbone, _, SignInTemplate) {
-    var View = Backbone.View.extend({
+    "Backbone",
+    "Underscore",
+    "collection/postCollection",
+    "text!template/posts/postsTemplate.html"
+], function(Backbone, _, PostCollection, PostsTemplate) {
+    var PostsView = Backbone.View.extend({
 
         el: "#contentHolder",
-        template: _.template(SignInTemplate),
+        template: _.template(PostsTemplate),
 
-        events: {
-        },
+        events: {},
 
         initialize: function() {
+            var postCollection = new PostCollection();
+            postCollection.url = "/posts";
+            postCollection.fetch({
+                data: {
+                    limit: 10,
+                    pageNumber: 1
+                },
+                success: function(collection, response, options) {
+                    console.log("Collection: ", collection);
+                    console.log("Response: ", response);
+                    console.log("Options: ", options);
+                },
+                error: function() {
+                    console.log("Error");
+                }
+            });
             this.render();
         },
 
@@ -24,9 +40,9 @@ define([
         },
 
         select: function() {
-            $('#posts').addClass('active');
+            $("#posts").addClass("active");
         }
     });
 
-    return View;
+    return PostsView;
 });

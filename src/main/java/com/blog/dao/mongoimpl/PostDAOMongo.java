@@ -28,7 +28,6 @@ public class PostDAOMongo implements PostDAO {
     public void addPost(Post post) {
         postCollection.insertOne(new Document("title", post.getTitle())
                                 .append("body", post.getBody())
-                                .append("author", post.getAuthor().getId())
                                 .append("date", new Date()));
     }
 

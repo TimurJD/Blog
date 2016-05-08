@@ -17,8 +17,10 @@ public enum ResponseMessage {
     SIGNED_UP("Successfully signedUp"),
 
     // Successful when login
-    LOGGED_IN("Successful logged in.");
+    LOGGED_IN("Successful logged in."),
 
+    // Errors when create new post
+    INVALID_POST_TITLE("Invalid post title.");
 
     ResponseMessage(String message) {
         this.message = message;

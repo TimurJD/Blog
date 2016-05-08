@@ -1,15 +1,16 @@
 define([
-	'Backbone',
-    'view/nav/navView'
+	"Backbone",
+    "view/nav/navView"
 ], function(Backbone, MainView) {
     var Router = Backbone.Router.extend({
         routes: {
-            'signIn' : 'signIn',
-            'signUp' : 'signUp',
-            'posts'  : 'posts',
-            'about'  : 'about',
-            'contact': 'contact',
-            '*any'   : 'default'
+            "signIn" : "signIn",
+            "signUp" : "signUp",
+            "posts"  : "posts",
+            "about"  : "about",
+            "contact": "contact",
+            "newPost": "newPost",
+            "*any"   : "default"
         },
         
         initialize: function() {
@@ -17,33 +18,37 @@ define([
         },
 
         signIn: function() {
-            this.loadView('signIn');
+            this.loadView("signIn");
         },
 
         signUp: function() {
-            this.loadView('signUp');
+            this.loadView("signUp");
         },
 
         about: function() {
-            console.log('about');
+            console.log("about");
         },
 
         contact: function() {
-            console.log('contact');
+            console.log("contact");
         },
 
         posts: function() {
-            this.loadView('posts');
+            this.loadView("posts");
+        },
+
+        newPost: function() {
+            this.loadView("newPost");
         },
 
         default: function() {
-            Backbone.history.navigate('/posts', {trigger: true});
+            Backbone.history.navigate("/posts", {trigger: true});
         },
 
         loadView: function (argName, argParams, argRedirect, argType) {
             var self = this;
             var name = argName;
-            var nameView = argType ? name + argType + 'View' : name + 'View';
+            var nameView = argType ? name + argType + "View" : name + "View";
             var params = argParams;
             //var redirect = argRedirect;
             //var newUrl;
@@ -65,7 +70,7 @@ define([
             //}
             //}
 
-            require(['view/' + name + '/' + nameView], function (View) {
+            require(["view/" + name + "/" + nameView], function (View) {
                 self[nameView] = new View(params);
 
                 if (self.view) {
@@ -73,7 +78,10 @@ define([
                 }
 
                 self.view = self[nameView];
-                self.view.select();
+
+                if(self.view.select) {
+                    self.view.select();
+                }
             });
         }
     });
