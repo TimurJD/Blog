@@ -120,4 +120,30 @@ public class PostServiceTest {
         // When
         postService.addNewPost(post);
     }
+
+    @Test
+    public void shouldThrowExceprionWhenTitleMoreThan30() throws InvalidPostDataException {
+        // Given
+        Post post = new Post("TitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitleTitle", "Some body", new Date());
+
+        // Then
+        expectedException.expect(InvalidPostDataException.class);
+        expectedException.expectMessage(equalTo(INVALID_POST_TITLE.getMessage()));
+
+        // When
+        postService.addNewPost(post);
+    }
+
+    @Test
+    public void shouldThrowExceprionWhenTitleLessThan5() throws InvalidPostDataException {
+        // Given
+        Post post = new Post("Tit", "Some body", new Date());
+
+        // Then
+        expectedException.expect(InvalidPostDataException.class);
+        expectedException.expectMessage(equalTo(INVALID_POST_TITLE.getMessage()));
+
+        // When
+        postService.addNewPost(post);
+    }
 }

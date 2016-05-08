@@ -31,7 +31,7 @@ public class PostService {
     }
 
     private void validatePost(Post post) throws InvalidPostDataException {
-        if(post.getTitle() == null) {
+        if(post.getTitle() == null || post.getTitle().length() > 30 || post.getTitle().length() < 5) {
             throw new InvalidPostDataException(INVALID_POST_TITLE.getMessage());
         }
     }
