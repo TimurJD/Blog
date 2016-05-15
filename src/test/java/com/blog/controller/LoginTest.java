@@ -1,18 +1,13 @@
 package com.blog.controller;
 
 import com.blog.db.DBManager;
-import com.blog.util.PasswordUtil;
-import org.bson.Document;
+import com.jayway.restassured.http.ContentType;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import static com.jayway.restassured.RestAssured.baseURI;
-import static com.jayway.restassured.RestAssured.given;
-import static com.jayway.restassured.RestAssured.port;
+import static com.jayway.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
-
-import com.jayway.restassured.http.ContentType;
 
 /**
  * @author Timur Berezhnoi
@@ -23,10 +18,6 @@ public class LoginTest {
 
     @BeforeClass
     public static void setUp() {
-        DBManager.INSTANCE.getDataBase().getCollection("users")
-                .insertOne(new Document()
-                            .append("email", "tim@g.com")
-                            .append("password", PasswordUtil.hashPassword("123456")));
         baseURI = "http://localhost:7373";
         port = 7373;
     }

@@ -1,7 +1,5 @@
 package com.blog.config;
 
-import com.blog.util.PropertyLoader;
-
 import java.util.Properties;
 
 /**

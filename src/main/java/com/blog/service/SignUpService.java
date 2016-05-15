@@ -3,7 +3,6 @@ package com.blog.service;
 import com.blog.dao.UserDAO;
 import com.blog.entity.User;
 import com.blog.exception.InvalidUserDataException;
-import com.blog.util.PasswordUtil;
 
 import static com.blog.constant.ResponseMessage.*;
 
@@ -27,7 +26,7 @@ public class SignUpService {
 			throw new InvalidUserDataException(EMAIL_IN_USE.getMessage());
 		}
 		
-		user.setPassword(PasswordUtil.hashPassword(user.getPassword()));
+		user.setPassword(PasswordHasher.hashPassword(user.getPassword()));
 		userDAO.addUser(user);
 	}
 

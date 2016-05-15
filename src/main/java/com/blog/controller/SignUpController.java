@@ -2,7 +2,6 @@ package com.blog.controller;
 
 import com.blog.entity.User;
 import com.blog.service.SignUpService;
-import com.blog.util.JsonTransformer;
 
 import static com.blog.constant.HttpStatus.BAD_REQUEST;
 import static com.blog.constant.HttpStatus.CREATED;

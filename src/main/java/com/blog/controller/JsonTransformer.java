@@ -1,4 +1,4 @@
-package com.blog.util;
+package com.blog.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -7,12 +7,12 @@ import com.google.gson.JsonParser;
 /**
  * @author Timur Berezhnoi
  */
-public class JsonTransformer {
-    public static <T> T fromJson(String json, Class<T> entity) {
+class JsonTransformer {
+    static <T> T fromJson(String json, Class<T> entity) {
         return new Gson().fromJson(json, entity);
     }
 
-    public static JsonObject getJsonObject(String json) {
+    static JsonObject getJsonObject(String json) {
         return new JsonParser().parse(json).getAsJsonObject();
     }
 }

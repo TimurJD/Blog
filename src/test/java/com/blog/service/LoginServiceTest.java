@@ -3,7 +3,6 @@ package com.blog.service;
 import com.blog.dao.UserDAO;
 import com.blog.entity.User;
 import com.blog.exception.InvalidUserDataException;
-import com.blog.util.PasswordUtil;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -47,7 +46,7 @@ public class LoginServiceTest {
         password = "987654321";
 
         // Expected user
-        User user = new User("email@g.com", "fisrt", "second", PasswordUtil.hashPassword(password));
+        User user = new User("email@g.com", "fisrt", "second", PasswordHasher.hashPassword(password));
 
         when(userDAO.getUserByEmail(email)).thenReturn(user);
 

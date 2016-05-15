@@ -2,7 +2,6 @@ package com.blog.controller;
 
 import com.blog.entity.Post;
 import com.blog.service.PostService;
-import com.blog.util.JsonTransformer;
 import com.google.gson.Gson;
 
 import static com.blog.constant.HttpStatus.BAD_REQUEST;

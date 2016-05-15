@@ -1,4 +1,4 @@
-package com.blog.util;
+package com.blog.config;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,10 +8,10 @@ import java.util.Properties;
 /**
  * @author Timur Berezhnoi
  */
-public class PropertyLoader {
+class PropertyLoader {
 
-	public static synchronized Properties loadProperties(String path) {
-		Properties properties = new Properties();
+	static synchronized Properties loadProperties(String path) {
+        Properties properties = new Properties();
 		try(InputStream input = new FileInputStream(new File(path))) {
 			properties.load(input);
 		} catch(Exception e) {

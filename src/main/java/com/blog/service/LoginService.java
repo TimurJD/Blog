@@ -3,7 +3,6 @@ package com.blog.service;
 import com.blog.dao.UserDAO;
 import com.blog.entity.User;
 import com.blog.exception.InvalidUserDataException;
-import com.blog.util.PasswordUtil;
 
 import static com.blog.constant.ResponseMessage.*;
 
@@ -47,7 +46,7 @@ public class LoginService {
 
     private User verifyUserPassword(String email, String password) throws InvalidUserDataException {
         User user = userDAO.getUserByEmail(email);
-        if(user == null || !PasswordUtil.verifyPassword(password, user.getPassword())) {
+        if(user == null || !PasswordHasher.verifyPassword(password, user.getPassword())) {
             throw new InvalidUserDataException(LOGIN_FAIL.getMessage());
         } else {
             return user;

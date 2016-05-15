@@ -2,7 +2,6 @@ package com.blog.controller;
 
 import com.blog.service.LoginService;
 import com.blog.service.SessionService;
-import com.blog.util.JsonTransformer;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
