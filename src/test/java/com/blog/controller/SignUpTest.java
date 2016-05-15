@@ -2,7 +2,9 @@ package com.blog.controller;
 
 import com.blog.db.DBManager;
 import com.jayway.restassured.http.ContentType;
+import com.mongodb.client.MongoCollection;
 import org.bson.Document;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -223,8 +225,9 @@ public class SignUpTest {
 	    	.body("message", equalTo("Invalid email or user with the email is alredy in use!"));
 	}
 
-//	@After
-//	public void tearDown() {
-//		DBManager.INSTANCE.getDataBase().getCollection("users").drop();
-//	}
+	@After
+	public void tearDown() {
+        final MongoCollection<Document> users = DBManager.INSTANCE.getDataBase().getCollection("users");
+        users.findOneAndDelete(new Document("email", "tim2@g.com"));
+    }
 }
