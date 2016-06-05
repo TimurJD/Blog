@@ -3,18 +3,15 @@ package com.blog;
 import com.blog.config.BlogConfig;
 import com.blog.controller.IndexController;
 import com.blog.controller.LoginController;
-import com.blog.controller.PostController;
 import com.blog.controller.SignUpController;
 import com.blog.dao.mongoimpl.MongoDAOFactory;
-import com.blog.exception.InvalidPostDataException;
-import com.blog.exception.InvalidUserDataException;
 import com.blog.service.LoginService;
-import com.blog.service.PostService;
 import com.blog.service.SessionService;
 import com.blog.service.SignUpService;
 
-import static com.blog.constant.HttpStatus.BAD_REQUEST;
 import static spark.Spark.*;
+
+//import com.blog.service.PostService;
 
 /**
  * @author Timur Berezhnoi
@@ -31,16 +28,6 @@ public class App {
             response.type("application/json");
             System.out.println(request.requestMethod() + " " + request.pathInfo());
         });
-
-        exception(InvalidUserDataException.class, (e, request, response) -> {
-            response.status(BAD_REQUEST.getCode());
-            response.body("{\"message\": \"" + e.getMessage() + "\"}");
-        });
-
-        exception(InvalidPostDataException.class, (e, request, response) -> {
-            response.status(BAD_REQUEST.getCode());
-            response.body("{\"message\": \"" + e.getMessage() + "\"}");
-        });
     }
 
     public static void main(String[] args) throws InterruptedException {
@@ -48,6 +35,6 @@ public class App {
         new SignUpController(new SignUpService(MongoDAOFactory.getUserDAOMongo()));
         new LoginController(new LoginService(MongoDAOFactory.getUserDAOMongo()),
                             new SessionService(MongoDAOFactory.getSessionDAOMongo()));
-        new PostController(new PostService(MongoDAOFactory.getPostDAOMongo()));
+//        new PostController(new PostService(MongoDAOFactory.getPostDAOMongo()));
     }
 }

@@ -1,9 +1,12 @@
 package com.blog.controller;
 
+import com.blog.entity.User;
 import com.blog.service.LoginService;
+import com.blog.service.Notification;
 import com.blog.service.SessionService;
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import spark.Response;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +14,7 @@ import java.util.Map;
 import static com.blog.constant.HttpStatus.BAD_REQUEST;
 import static com.blog.constant.HttpStatus.OK;
 import static com.blog.constant.ResponseMessage.EMPTY_BODY;
-import static com.blog.constant.ResponseMessage.LOGGED_IN;
+import static com.blog.constant.ResponseMessage.LOGIN_FAIL;
 import static spark.Spark.*;
 
 /**
@@ -30,27 +33,49 @@ public class LoginController {
 
     private void setupRoutes() {
         post("/login", (requset, response) -> {
-            JsonObject jsonObject = JsonTransformer.getJsonObject(requset.body());
-
-            String email = jsonObject.get("email").getAsString();
-            String password = jsonObject.get("password").getAsString();
-
+            User user = null;
             Map<String, Object> responseData = new HashMap<>();
+            Map requestBody = new Gson().fromJson(requset.body(), Map.class);
 
-            responseData.put("message", LOGGED_IN.getMessage());
-            responseData.put("user", loginService.login(email, password));
+            String email = (String) requestBody.get("email");
+            String password = (String) requestBody.get("password");
 
-            // TODO: think about remember me and cookie age
-            response.cookie("session", sessionService.sessionBurn(email), 10000 * 60 * 60 * 24);
-            response.status(OK.getCode());
+            Notification notification = loginService.validateLoginData(email, password);
+
+            if(notification.hasErrors()) {
+                response.status(BAD_REQUEST.getCode());
+                responseData.put("message", notification.getError());
+                return responseData;
+            }
+
+            user = loginService.getUser(email, password);
+
+            if(user == null) {
+                notification.addError(LOGIN_FAIL.getMessage());
+                response.status(BAD_REQUEST.getCode());
+                responseData.put("message", notification.getError());
+                return responseData;
+            }
+
+            responseData.put("user", user);
+
+            setSession(email, response);
 
             return responseData;
+
         }, new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()::toJson);
 
         before("/login", (request, response) -> {
             if(request.body().isEmpty()) {
-                halt(BAD_REQUEST.getCode(), "{\"message\": \"" + EMPTY_BODY.getMessage() + "\"}");
+                Map<String, Object> responseData = new HashMap<>();
+                responseData.put("message", EMPTY_BODY.getMessage());
+                halt(BAD_REQUEST.getCode(), new Gson().toJson(responseData));
             }
         });
+    }
+
+    private void setSession(String email, Response response) {
+        response.cookie("session", sessionService.sessionBurn(email), 10000 * 60 * 60 * 24);
+        response.status(OK.getCode());
     }
 }

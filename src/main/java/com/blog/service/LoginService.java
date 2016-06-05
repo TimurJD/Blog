@@ -2,9 +2,6 @@ package com.blog.service;
 
 import com.blog.dao.UserDAO;
 import com.blog.entity.User;
-import com.blog.exception.InvalidUserDataException;
-
-import static com.blog.constant.ResponseMessage.*;
 
 /**
  * @author Timur Berezhnoi
@@ -17,37 +14,19 @@ public class LoginService {
         this.userDAO = userDAO;
     }
 
-    public User login(String email, String password) throws InvalidUserDataException {
-        if(email == null) {
-            throw new InvalidUserDataException(INVALID_USER_EMAIL.getMessage());
-        }
+    public Notification validateLoginData(String email, String password) {
+        Notification notification = new Notification();
 
-        String emailLowerCase = email.toLowerCase();
+        Validate.validateEmail(email, notification);
+        Validate.validatePassword(password, notification);
 
-        validateLoginData(emailLowerCase, password);
-
-        return verifyUserPassword(emailLowerCase, password);
+        return notification;
     }
 
-    private void validateLoginData(String email, String password) throws InvalidUserDataException {
-        String emailPattern = "^[a-z0-9-\\+]+(\\.[a-z0-9-]+)*@"
-                + "[a-z0-9-]+(\\.[a-z0-9]+)*(\\.[a-z]{2,})$";
-
-        String passwordPattern = "^.{6,15}$";
-
-        if(email == null || email.length() > 25 || !email.matches(emailPattern)) {
-            throw new InvalidUserDataException(INVALID_USER_EMAIL.getMessage());
-        }
-
-        if (password == null || !password.matches(passwordPattern)) {
-            throw new InvalidUserDataException(INVALID_USER_PASSWORD.getMessage());
-        }
-    }
-
-    private User verifyUserPassword(String email, String password) throws InvalidUserDataException {
+    public User getUser(String email, String password) {
         User user = userDAO.getUserByEmail(email);
         if(user == null || !PasswordHasher.verifyPassword(password, user.getPassword())) {
-            throw new InvalidUserDataException(LOGIN_FAIL.getMessage());
+            return null;
         } else {
             return user;
         }

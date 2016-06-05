@@ -2,20 +2,14 @@ package com.blog.service;
 
 import com.blog.dao.UserDAO;
 import com.blog.entity.User;
-import com.blog.exception.InvalidUserDataException;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static com.blog.constant.ResponseMessage.INVALID_USER_EMAIL;
-import static com.blog.constant.ResponseMessage.INVALID_USER_PASSWORD;
-import static com.blog.constant.ResponseMessage.LOGIN_FAIL;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
+import static com.blog.constant.ResponseMessage.*;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
@@ -24,15 +18,14 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class LoginServiceTest {
 
-    private LoginService loginService;
     private String email;
     private String password;
+    private String error;
+
+    private LoginService loginService;
 
     @Mock
     private UserDAO userDAO;
-
-    @Rule
-    public ExpectedException expectedException = ExpectedException.none();
 
     @Before
     public void setUp() {
@@ -40,135 +33,116 @@ public class LoginServiceTest {
     }
 
     @Test
-    public void shouldReturnUserWhenLoginSuccessfull() throws InvalidUserDataException {
+    public void shouldReturnUserWhenLoginSuccessfull() {
         // Given
         email = "email@g.com";
         password = "987654321";
-
-        // Expected user
         User user = new User("email@g.com", "fisrt", "second", PasswordHasher.hashPassword(password));
 
         when(userDAO.getUserByEmail(email)).thenReturn(user);
 
-        // When - Then
-        assertEquals(user, loginService.login(email, password));
+        // When
+        User loggedUser = loginService.getUser(email, password);
+
+        // Then
         verify(userDAO, times(1)).getUserByEmail(email);
+        assertNotNull(loggedUser);
     }
 
     @Test
-    public void shouldThrowExceptionWhenEmailInvalid() throws InvalidUserDataException {
+    public void shouldContaninsErrorWhenEmailInvalid() {
         // Given
-        email = "invalidEmail";
-        password = "invalidPassword";
-
-        // Then
-        expectedException.expect(InvalidUserDataException.class);
-        expectedException.expectMessage(equalTo(INVALID_USER_EMAIL.getMessage()));
+        setIncomingParameters("invalidEmail", "123456", INVALID_EMAIL_PATTERN.getMessage());
 
         // When
-        loginService.login(email, password);
-    }
-
-    @Test
-    public void shouldThrowExceptionWhenPasswordContainsSpecialCharacters() throws InvalidUserDataException {
-        // Given
-        email = "tim@gmail.com";
-        password = "@#^%@";
+        Notification notification = loginService.validateLoginData(email, password);
 
         // Then
-        expectedException.expect(InvalidUserDataException.class);
-        expectedException.expectMessage(equalTo(INVALID_USER_PASSWORD.getMessage()));
-
-        // When
-        loginService.login(email, password);
+        assertTrue(notification.hasErrors());
+        assertEquals(error, notification.getError());
     }
 
     @Test
-    public void shouldThrowExceptionWhenEmailNull() throws InvalidUserDataException {
+    public void shouldContainsErrorWhenPasswordToShort() {
         // Given
-        email = null;
-        password = "123456";
+        setIncomingParameters("tim@gmail.com", "12", INVALID_PASSWORD_LENGTH.getMessage());
+
+        // When
+        Notification notification = loginService.validateLoginData(email, password);
 
         // Then
-        expectedException.expect(InvalidUserDataException.class);
-        expectedException.expectMessage(equalTo(INVALID_USER_EMAIL.getMessage()));
-
-        // When
-        loginService.login(email, password);
+        assertTrue(notification.hasErrors());
+        assertEquals(error, notification.getError());
     }
 
     @Test
-    public void shouldThrowExceptionWhenPasswordNull() throws InvalidUserDataException {
+    public void shouldContainsErrorWhenEmailIsNull() {
         // Given
-        email = "tim@g.com";
-        password = null;
+        setIncomingParameters(null, "1234567", INVALID_EMAIL_NULL.getMessage());
+
+        // When
+        Notification notification = loginService.validateLoginData(email, password);
 
         // Then
-        expectedException.expect(InvalidUserDataException.class);
-        expectedException.expectMessage(equalTo(INVALID_USER_PASSWORD.getMessage()));
+        assertTrue(notification.hasErrors());
+        assertEquals(error, notification.getError());
+    }
+
+    @Test
+    public void shouldContainsErrorWhenPasswordIsNull() {
+        // Given
+        setIncomingParameters("tim@g.com", null, INVALID_PASSWORD_NULL.getMessage());
 
         // When
-        loginService.login(email, password);
-    }
-
-    @Test
-    public void shouldThrowExceptionWhenUserDoesnotExist() throws InvalidUserDataException {
-        // Given
-        email = "tim@g.com";
-        password = "123456";
-
-        // Expected user
-        User user = null;
-
-        when(userDAO.getUserByEmail(email)).thenReturn(user);
-
-        expectedException.expect(InvalidUserDataException.class);
-        expectedException.expectMessage(equalTo(LOGIN_FAIL.getMessage()));
-
-        // When - Then
-        assertEquals(user, loginService.login(email, password));
-        verify(userDAO, times(1)).getUserByEmail(email);
-    }
-
-    @Test
-    public void shouldThrowExceptionWhenEmailIsToLong() throws InvalidUserDataException {
-        // Given
-        email = "timsadasdasdsadasdsasadasdasdasdxzxczxczxczxczxczxc@g.com";
-        password = "123456";
+        Notification notification = loginService.validateLoginData(email, password);
 
         // Then
-        expectedException.expect(InvalidUserDataException.class);
-        expectedException.expectMessage(equalTo(INVALID_USER_EMAIL.getMessage()));
-
-        // When
-        loginService.login(email, password);
+        assertTrue(notification.hasErrors());
+        assertEquals(error, notification.getError());
     }
 
     @Test
-    public void shouldThrowExceptionWhenPasswordIsToLong() throws InvalidUserDataException {
+    public void shouldContainsErrorWhenEmailAndPasswordAreNull() {
         // Given
-        email = "ts@g.com";
-        password = "sadas21098310293uisoki09qwie20193ioksoasoosososo123456";
-
-        // Then
-        expectedException.expect(InvalidUserDataException.class);
-        expectedException.expectMessage(equalTo(INVALID_USER_PASSWORD.getMessage()));
+        setIncomingParameters(null, null, INVALID_EMAIL_NULL.getMessage() + ", " + INVALID_PASSWORD_NULL.getMessage());
 
         // When
-        loginService.login(email, password);
+        Notification notification = loginService.validateLoginData(email, password);
+
+        // Then
+        assertTrue(notification.hasErrors());
+        assertEquals(error, notification.getError());
     }
 
     @Test
-    public void shouldThrowExceptionWhenPasswordIsShort() throws InvalidUserDataException {
+    public void shouldContainsErrorWhenEmailIsToLong() {
         // Given
-        email = "ts@g.com";
-        password = "123";
-
-        // Then
-        expectedException.expect(InvalidUserDataException.class);
-        expectedException.expectMessage(equalTo(INVALID_USER_PASSWORD.getMessage()));
+        setIncomingParameters("timsadasdasdsadasdsasadasdasdasdxzxczxczxczxczxczxc@g.com", "123456", INVALID_EMAIL_LENGTH.getMessage());
 
         // When
-        loginService.login(email, password);
+        Notification notification = loginService.validateLoginData(email, password);
+
+        // Then
+        assertTrue(notification.hasErrors());
+        assertEquals(error, notification.getError());
+    }
+
+    @Test
+    public void shouldContainsErrorWhenPasswordIsToLong() {
+        // Given
+        setIncomingParameters("ts@g.com", "sadas21098310293uisoki09qwie20193ioksoasoosososo123456", INVALID_PASSWORD_LENGTH.getMessage());
+
+        // When
+        Notification notification = loginService.validateLoginData(email, password);
+
+        // Then
+        assertTrue(notification.hasErrors());
+        assertEquals(error, notification.getError());
+    }
+
+    private void setIncomingParameters(String email, String password, String error) {
+        this.email = email;
+        this.password = password;
+        this.error = error;
     }
 }

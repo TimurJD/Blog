@@ -6,9 +6,15 @@ package com.blog.constant;
 public enum ResponseMessage {
 
     // Errors when signUp/signIn
-    INVALID_USER_EMAIL("Invalid user email."),
-    INVALID_USER_NAME("Invalid user name."),
-    INVALID_USER_PASSWORD("Invalid user password."),
+    INVALID_EMAIL_NULL("Email can't be null."),
+    INVALID_EMAIL_LENGTH("Email can't be more than 25 characters"),
+    INVALID_EMAIL_PATTERN("Invalid email pattern"),
+    INVALID_PASSWORD_NULL("Password can't be null."),
+    INVALID_PASSWORD_LENGTH("Password should be from 6 to 15 length"),
+    INVALID_FIRST_NAME_NULL("User first name can't be null."),
+    INVALID_FIRST_NAME_PATTERN("Invalid user first name."),
+    INVALID_LAST_NAME_NULL("User last name can't be null."),
+    INVALID_LAST_NAME_PATTERN("Invalid user last name."),
     EMAIL_IN_USE("Invalid email or user with the email is alredy in use!"),
     EMPTY_BODY("Body cannot be empty."),
     LOGIN_FAIL("Email or password is wrong."),
