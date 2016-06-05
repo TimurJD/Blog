@@ -23,6 +23,11 @@ public class SignUpService {
         Validate.validatePassword(user.getPassword(), notification);
         Validate.validateFirstName(user.getFirstName(), notification);
         Validate.validateLastName(user.getLastName(), notification);
+
+        if(notification.hasErrors()) {
+            return notification;
+        }
+
         checkUser(user.getEmail(), notification);
 
         return notification;

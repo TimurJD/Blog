@@ -32,14 +32,13 @@ public class SignUpController {
 
 			Notification notification = signupService.validate(user);
 
-            user.setEmail(user.getEmail().toLowerCase());
-
             if(notification.hasErrors()) {
                 response.status(BAD_REQUEST.getCode());
                 responseData.put("error", notification.getError());
                 return responseData;
             }
 
+            user.setEmail(user.getEmail().toLowerCase());
             signupService.signUp(user);
 			response.status(CREATED.getCode());
 
