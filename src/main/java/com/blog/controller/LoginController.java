@@ -33,7 +33,6 @@ public class LoginController {
 
     private void setupRoutes() {
         post("/login", (requset, response) -> {
-            User user = null;
             Map<String, Object> responseData = new HashMap<>();
             Map requestBody = new Gson().fromJson(requset.body(), Map.class);
 
@@ -44,21 +43,20 @@ public class LoginController {
 
             if(notification.hasErrors()) {
                 response.status(BAD_REQUEST.getCode());
-                responseData.put("message", notification.getError());
+                responseData.put("error", notification.getError());
                 return responseData;
             }
 
-            user = loginService.getUser(email, password);
+            User user = loginService.getUser(email, password);
 
             if(user == null) {
                 notification.addError(LOGIN_FAIL.getMessage());
                 response.status(BAD_REQUEST.getCode());
-                responseData.put("message", notification.getError());
+                responseData.put("error", notification.getError());
                 return responseData;
             }
 
             responseData.put("user", user);
-
             setSession(email, response);
 
             return responseData;
@@ -68,7 +66,7 @@ public class LoginController {
         before("/login", (request, response) -> {
             if(request.body().isEmpty()) {
                 Map<String, Object> responseData = new HashMap<>();
-                responseData.put("message", EMPTY_BODY.getMessage());
+                responseData.put("error", EMPTY_BODY.getMessage());
                 halt(BAD_REQUEST.getCode(), new Gson().toJson(responseData));
             }
         });

@@ -10,7 +10,6 @@ import java.util.Map;
 
 import static com.blog.constant.HttpStatus.BAD_REQUEST;
 import static com.blog.constant.HttpStatus.CREATED;
-import static com.blog.constant.ResponseMessage.EMAIL_IN_USE;
 import static com.blog.constant.ResponseMessage.EMPTY_BODY;
 import static spark.Spark.*;
 
@@ -35,10 +34,9 @@ public class SignUpController {
 
             user.setEmail(user.getEmail().toLowerCase());
 
-            if(signupService.isUserExists(user.getEmail())) {
-                notification.addError(EMAIL_IN_USE.getMessage());
+            if(notification.hasErrors()) {
                 response.status(BAD_REQUEST.getCode());
-                responseData.put("message", notification.getError());
+                responseData.put("error", notification.getError());
                 return responseData;
             }
 
@@ -51,7 +49,7 @@ public class SignUpController {
 		before("/signup", (request, response) -> {
 			if(request.body().isEmpty()) {
                 Map<String, Object> responseData = new HashMap<>();
-                responseData.put("message",  EMPTY_BODY.getMessage());
+                responseData.put("error",  EMPTY_BODY.getMessage());
 				halt(BAD_REQUEST.getCode(), new Gson().toJson(responseData));
 			}
 		});

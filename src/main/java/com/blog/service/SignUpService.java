@@ -3,6 +3,8 @@ package com.blog.service;
 import com.blog.dao.UserDAO;
 import com.blog.entity.User;
 
+import static com.blog.constant.ResponseMessage.EMAIL_IN_USE;
+
 /**
  * @author Timur Berezhnoi
  */
@@ -21,12 +23,15 @@ public class SignUpService {
         Validate.validatePassword(user.getPassword(), notification);
         Validate.validateFirstName(user.getFirstName(), notification);
         Validate.validateLastName(user.getLastName(), notification);
+        checkUser(user.getEmail(), notification);
 
         return notification;
     }
 
-	public boolean isUserExists(String email) {
-		return userDAO.getUserByEmail(email) != null;
+	private void checkUser(String email, Notification notification) {
+        if(userDAO.getUserByEmail(email) != null) {
+            notification.addError(EMAIL_IN_USE.getMessage());
+        }
 	}
 
     public void signUp(User user) {
